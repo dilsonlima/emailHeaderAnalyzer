@@ -56,36 +56,70 @@
                     <p><strong>Assunto:</strong> <span id="assunto"></span></p>
                     <p><strong>Data:</strong> <span id="data"></span></p>
                     <p><strong>E-mail Confiável:</strong> <span id="confiabilidade"></span></p>
+                    <p><strong>Motivos do Bloqueio:</strong></p> <ul id="motivosBloqueio" class="list-group"></ul>
+
                 </div>
             </div>
         </div>
     </div>
 
+    <footer class="text-center mt-5 p-3 bg-light small">
+        <p>
+            Este projeto faz parte do <strong>Projeto de Extensão Comunitária</strong> do curso de graduação em <strong>Perícia Forense da UniBta</strong>, 
+            cursada pelo aluno <strong>Dilson H O Lima</strong> no ano de <strong>2025</strong>.
+        </p>
+        <p>
+            <strong>Todos os direitos reservados.</strong> Os dados dos e-mails analisados <strong>não são armazenados</strong> em nenhum local, 
+            garantindo a total <strong>privacidade das informações.</strong>
+        </p>
+    </footer>
+    
+    
+
     <script>
         document.getElementById('fileInput').addEventListener('change', function(event) {
-            let file = event.target.files[0];
+    let file = event.target.files[0];
 
-            if (file) {
-                let formData = new FormData();
-                formData.append("file", file);
+    if (file) {
+        let formData = new FormData();
+        formData.append("file", file);
 
-                fetch('/upload', { 
-                    method: 'POST', 
-                    body: formData 
-                })
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById("remetente").textContent = data.remetente;
-                    document.getElementById("destinatario").textContent = data.destinatario;
-                    document.getElementById("assunto").textContent = data.assunto;
-                    document.getElementById("data").textContent = data.data;
-                    document.getElementById("confiabilidade").textContent = data.confiavel ? "Sim ✅" : "Não ❌";
+        fetch('/upload', { 
+            method: 'POST', 
+            body: formData 
+        })
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById("remetente").textContent = data.remetente;
+            document.getElementById("destinatario").textContent = data.destinatario;
+            document.getElementById("assunto").textContent = data.assunto;
+            document.getElementById("data").textContent = data.data;
+            document.getElementById("confiabilidade").textContent = data.confiavel ? "Sim ✅" : "Não ❌";
 
-                    document.getElementById("resultArea").style.display = "block";
-                })
-                .catch(error => console.error("Erro ao processar o arquivo:", error));
+            document.getElementById("resultArea").style.display = "block";
+
+            // Exibir os motivos do bloqueio, se houver
+            let motivosBloqueio = document.getElementById("motivosBloqueio");
+            motivosBloqueio.innerHTML = ""; // Limpar lista antes de adicionar
+
+            if (data.motivos && data.motivos.length > 0) {
+                data.motivos.forEach(motivo => {
+                    let listItem = document.createElement("li");
+                    listItem.className = "list-group-item list-group-item-danger";
+                    listItem.textContent = motivo;
+                    motivosBloqueio.appendChild(listItem);
+                });
+            } else {
+                let listItem = document.createElement("li");
+                listItem.className = "list-group-item list-group-item-success";
+                listItem.textContent = "Nenhuma ameaça detectada.";
+                motivosBloqueio.appendChild(listItem);
             }
-        });
+        })
+        .catch(error => console.error("Erro ao processar o arquivo:", error));
+    }
+});
+
     </script>
 
 </body>
