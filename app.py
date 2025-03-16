@@ -17,11 +17,12 @@ app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
 # Palavras-chave suspeitas em anexos
 PALAVRAS_SUSPEITAS = [
-    "pagar", "fatura", "debito", "cheque", "faca pix", "urgente",
-    "pagamento", "extrato de debitos"
+    "pagar", "fatura", "debito", "cheque", "pix", "urgente",
+    "pagamento", "boleto", "extrato", "2º via", 
+    "cobranca", "cobrança", "2", "segunda"
 ]
 
-# Extensões de arquivos considerados perigosos
+# Extensões de arquivos considerados perigosos 
 EXTENSOES_SUSPEITAS = [
     ".py", ".exe", ".tar", ".js", ".bat", ".sh", ".shell", ".java", ".javac", ".jar",
     ".dll", ".ini", ".zip", ".gz", ".zip", ".rar", ".bot", ".boot", ".c",

@@ -1,0 +1,859 @@
+Delivered-To: hayashi.dilson@gmail.com
+Received: by 2002:a05:6214:2b09:b0:6d8:890b:3343 with SMTP id jx9csp2303448qvb;
+        Mon, 24 Feb 2025 13:19:16 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IE5Cix9ZT9vmpYesBzLg21Wp3e/K2FNkXOzwtcnjOevL34Zqq7ZFrb/9uoWzsgMZc+5zGDO
+X-Received: by 2002:a05:620a:2699:b0:7c0:c0d7:5808 with SMTP id af79cd13be357-7c0ceefa062mr2050740685a.23.1740431955860;
+        Mon, 24 Feb 2025 13:19:15 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1740431955; cv=none;
+        d=google.com; s=arc-20240605;
+        b=TOV5rWw91NAPoMWbBddpm6v72K/o4YhQ56Fb0rrni2dLPhxNozBhfLHhPsHdBCa5rk
+         PfF0lGYOJ5Qgcz3njlVCM6YUQQGd1E4hZqgu4dvHyReSMqHHYH177/tP5uOaDwfckjt4
+         5OqRNdilxSSKoX4lG4RRoFAJb5HJ4tdPNc10Okjlkogxb/g7s+sV5KLRgi8nyVnBTRhi
+         6mkYYN4nEN0l2u/kHK1dS9X34tf4UeXFN4G6Cq8S/Bdqx1UvMtKp6aM6IJ68PXCy8nUO
+         v8CH3QC+73lhw1QR9Lpp5zYBssMQdEZrnYGgHbpqmTsPVuhcTuPekoPBK7ONPh4nJINw
+         KK+g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=list-unsubscribe-post:list-unsubscribe:to:from:subject:message-id
+         :date:mime-version:sender:dkim-signature:dkim-signature;
+        bh=3HYzUy0XVVx4BfOVARW2XYi4vbZpx7ju1GIn8Vl1TW4=;
+        fh=nNGMiIIDRZMPtU/42wh78foqaN3mjdsbpm17lDOUJYY=;
+        b=NCe1uuZ+XOLnKtgpdn11OUJqxUymsr76Xxn60zQbsP90s96632LHBXb/EkowYAxCPy
+         4q6P2x+ikhN/kGI+x4LIGN6+PKdqE2xmGf1aqAG+bhBlNisgiw5o0e7EQsxFHTNRcjPg
+         iJv+oRtM04FytmCsDvJVdaKJVnjnfNx/OfiC1cU+UI3AVkyPPRkbLrYOClOTn84f1uQX
+         pdqoOO114k6ODB4yoT2DXMNuq1lohqPgGKWbstX+wNokvv//DIOdWx8VlgcU4VyJM1lo
+         vz+PQXn1U/MOvyoxf30zpPwom0OOJqIUmdcyD6mApIvJcUDcsrY6P79GNUIEDzpeDIJz
+         jzPg==;
+        dara=google.com
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@negocia.meuacerto.com.br header.s=smtp header.b=hWyqz3Et;
+       dkim=pass header.i=@mailgun.org header.s=mg header.b=Z9PgBjt+;
+       spf=pass (google.com: domain of bounce+e1eddc.2a645f-hayashi.dilson=gmail.com@negocia.meuacerto.com.br designates 161.38.194.174 as permitted sender) smtp.mailfrom="bounce+e1eddc.2a645f-hayashi.dilson=gmail.com@negocia.meuacerto.com.br";
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=negocia.meuacerto.com.br
+Return-Path: <bounce+e1eddc.2a645f-hayashi.dilson=gmail.com@negocia.meuacerto.com.br>
+Received: from m194-174.mailgun.net (m194-174.mailgun.net. [161.38.194.174])
+        by mx.google.com with UTF8SMTPS id af79cd13be357-7c23c30cd85si29791085a.598.2025.02.24.13.19.15
+        for <hayashi.dilson@gmail.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 24 Feb 2025 13:19:15 -0800 (PST)
+Received-SPF: pass (google.com: domain of bounce+e1eddc.2a645f-hayashi.dilson=gmail.com@negocia.meuacerto.com.br designates 161.38.194.174 as permitted sender) client-ip=161.38.194.174;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@negocia.meuacerto.com.br header.s=smtp header.b=hWyqz3Et;
+       dkim=pass header.i=@mailgun.org header.s=mg header.b=Z9PgBjt+;
+       spf=pass (google.com: domain of bounce+e1eddc.2a645f-hayashi.dilson=gmail.com@negocia.meuacerto.com.br designates 161.38.194.174 as permitted sender) smtp.mailfrom="bounce+e1eddc.2a645f-hayashi.dilson=gmail.com@negocia.meuacerto.com.br";
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=negocia.meuacerto.com.br
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=negocia.meuacerto.com.br; q=dns/txt; s=smtp; t=1740431955; x=1740439155;
+ h=List-Unsubscribe-Post: List-Unsubscribe: To: To: From: From: Subject: Subject: Content-Type: Message-ID: Date: MIME-Version: Sender: Sender: X-Feedback-Id;
+ bh=3HYzUy0XVVx4BfOVARW2XYi4vbZpx7ju1GIn8Vl1TW4=;
+ b=hWyqz3EtdgAvZSdHVaDmOlY26sIl9TQIG1gTPzmBPC8juDs1bsb7Nsg+KfkA/LiMC1KeC00V/zQKWBeW45dKDqQ/Lac4nrGjFljJ2X+Y7UHbMmvgn5dn6gmxc23Em/RcFWNz0ob5rzLw8wDEiA3SoeRoaLRGg2q0rx1V4vaTj04=
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mailgun.org; q=dns/txt; s=mg; t=1740431955; x=1740439155;
+ h=List-Unsubscribe-Post: List-Unsubscribe: To: To: From: From: Subject: Subject: Content-Type: Message-ID: Date: MIME-Version: Sender: Sender: X-Feedback-Id;
+ bh=3HYzUy0XVVx4BfOVARW2XYi4vbZpx7ju1GIn8Vl1TW4=;
+ b=Z9PgBjt+ph5w+QvtLTmwZzXeyev8WQIvAx6KMTv4FBIEId9e33W1r85XKAzht9knBinIB+2d+Ob7ZO8yPz++dDcNkeYmNpB6dUmfjVkPJK+PYFopoqoOcs/YKCiLsifxip4aU/+GxYkLpIpzH04yE4c3z/pWX9mWOop7+ODdfNI=
+X-Feedback-Id: meajuda@negocia.meuacerto.com.br:dEngage-mailgun-negocia_RDA-acerto_2402
+ 1:60afc7d2d956622405294e7f:mailgun
+X-Mailgun-Sending-Ip: 161.38.194.174
+X-Mailgun-Sending-Ip-Pool-Name: 
+X-Mailgun-Sending-Ip-Pool: 
+X-Mailgun-Sid: WyJiYTIzYyIsImhheWFzaGkuZGlsc29uQGdtYWlsLmNvbSIsIjJhNjQ1ZiJd
+Received: by 41e164c4b4fc with HTTP id 67bce253a5d52deae503d7b4; Mon, 24 Feb 2025
+ 21:19:15 GMT
+Sender: meajuda@negocia.meuacerto.com.br
+X-Mailgun-Tag: dEngage
+X-Mailgun-Tag: mailgun-negocia_RDA-acerto_2402 1
+X-Mailgun-Dkim: true
+X-Mailgun-Track: true
+X-Mailgun-Variables: {"accountId": "8", "campaignId": "19340", "contactId": "95846640",
+ "fromNameId": "", "messageId": "150120", "sendId": "508615", "vmtaId": "22"}
+MIME-Version: 1.0
+Date: Mon, 24 Feb 2025 21:19:04 +0000
+Message-ID: <67664674C9324E7A86D386940FE38B0E@negocia.meuacerto.com.br>
+Content-Type: multipart/alternative; boundary="------------020103010108020002040708"
+X-Priority: 3 (Normal)
+Subject: =?utf-8?B?Tk9USUZJQ0HDh8ODTyBQQVJBIENQRiAyOTQuKioqLioqKi0yMg==?=
+From: "Auditoria Interna" <meajuda@negocia.meuacerto.com.br>
+X-VirtualMTA: dummy
+To: hayashi.dilson@gmail.com
+X-UID: hLm4u4825Cocxyd3mEWFs4qdEQbb1it0aOqu_p_l_Z4wmvnGiBiKBx9zPhHJOooyYg5YWG1YJb3SvKrXWS7niCU_p_l_fjDyzQYK7lR5TO_p_l_0QiBfqxDegUoj4wYIt3BH86Srwu_s_l_lKjMxqXR6BU00UN6pWTkDNA_e_q__e_q_
+List-Unsubscribe: <https://us-pub.dengage.com/p/be/lu/hLm4u4825Cocxyd3mEWFs4qdEQbb1it0aOqu_p_l_Z4wmvnGiBiKBx9zPhHJOooyYg5YWG1YJb3SvKrXWS7niCU_p_l_fjDyzQYK7lR5TO_p_l_0QiBfqxDegUoj4wYIt3BH86Srwu_s_l_lKjMxqXR6BU00UN6pWTkDNA_e_q__e_q_>,<mailto:jmrpus@dengage.com?subject=hLm4u4825Cocxyd3mEWFs4qdEQbb1it0aOqu_p_l_Z4wmvnGiBiKBx9zPhHJOooyYg5YWG1YJb3SvKrXWS7niCU_p_l_fjDyzQYK7lR5TO_p_l_0QiBfqxDegUoj4wYIt3BH86Srwu_s_l_lKjMxqXR6BU00UN6pWTkDNA_e_q__e_q_>
+List-Unsubscribe-Post: List-Unsubscribe=One-Click
+X-CSA-Complaints: csa-complaints@eco.de
+
+--------------020103010108020002040708
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+=E2=80=8A
+
+Proposta Definitiva para Mitiga=C3=A7=C3=A3o de Riscos Financeiros
+<https://email.negocia.meuacerto.com.br/c/eJxUkUGToj4QxT8NufxLK4QkhEMOKmRGR=
+_nPOjM7rhcqJAEZCaBER_z0W7J72Ut3v3qvuqr7J5VqL41bas6AkraTVdksNfejAEOg2sZJ9TAj=
+wjClGALNkaSYFMBwP8QQB35ECCjOrU2lNUvNwYEHkCBIKNEYIkVYSExRSAYRhBGkxjeg4jSkFNM=
+QL6IA4SScMRoHjEYYiiRgc5h4GDambFUlp9ZcpDJn105Va6f5GdT84FzXe8HMQ8JDwp2lOlZNOf=
+0n5iHReUjkxkNC1R4SkuYRzPNi4quCTrBWZsK0ySeMkYIQ6ivfaA8JhGCfPpGsz-ps-dmxWaxue=
+It_MbOxt6zL6ux-bV3i-tmA0lMn59uhu4fHlXZBQhff_Xv4-RbZ_ddWXH6MS15PYSLM0-tbMEqX=
+rsYeXfF6Tr6V3T3DdLNZQLm6J-Eg0e7nC775d_i5SseguL731SXyy48BxZvquLqsb-vFZvTMZhc=
+OtBQJqz5eorKyp4-hLvJ9vr51EsXX9T14f06P_9vcdGK_QGnVjyfE86_ZbrXdj-IprtlunG7fmc=
+lO2ViANX0vywdSn0AfQXDmBznI_lBNdVX3beNhWFpZ1Y-Hg940eqk5gYz6BDiuk6aUpQGOPyLlp=
+Zn85Zlt49nkD6kMYYj-88GVI3C1Ti41R-h3AAAA__-829Mn>
+
+Fevereiro de 2025
+
+=E2=80=8A
+
+Dilson,
+
+
+Sua situa=C3=A7=C3=A3o de inadimpl=C3=AAncia com: Ita=C3=BA atingiu um n=C3=
+=ADvel cr=C3=ADtico e agora
+=C3=A9 improrrog=C3=A1vel que sejam tomadas medidas imediatas para evitar q=
+ue o d=C3=A9bito
+encontre mais burocracias.=20
+
+RELEMBRAR DA D=C3=8DVIDA
+<https://email.negocia.meuacerto.com.br/c/eJxUkc1u4jwUhq8m3nwCOSeOYy-8ABK3U=
+MjXoe2UYRM5jgkp-SNxKHD1IzKzmY19Xr2PjnT0KK2bobbLTDCkVdWqIq-XmXC5RzDSTW2VfpTc=
+Z4RSglEmQFHiH5ARbkAw8Vzu--jQNVWsKrPMBDoK3-U8UAyYpupAIXNJZjxjUo9z5uL0gApBA0o=
+JDciCe0CiYMZo6DHKCZaRx-Y4cgiuTd7oQk0rMyhtOttMdVNN0w6V4mht2zvezAHpgLSd0qeizq=
+f_YA7I1gGZGgekLh2QByA6C1w6cVPwJ0Qf6IQHmk2AaAzUY4ry1AEJgPv4yU_6pEyWny2bhfpKt=
+uQXM5vqmrRJmdwvjY1sP7tBfG7VfHtr78FplVkvoovv_j34fOPV_msrhx_jktdzEEnz9PrmjdHG=
+q_HnF7Ke-9-62j3jeLNZYLW6R8FNwe7nC7m6d_y5ikdQXt77YuBu_nGDcFOcVsP6ul5sxs5sdsG=
+N5jJixccLz4vq_HErD-k-XV9bBeFlfffen-PT_1VqWrlfQFz04wnh_Gu2W233Y3gKS7Ybp-t3Yp=
+JzMj6OJxdD15naTrvGKscLC6sGVJm-V_lDtOtjFzDqxFHdVH8spllR9k3tEJxXqigfGlBv6myZC=
+R8z6vrIiiyqc5UbZMUDyYd68tdysg1nkz_-EiAY_nPRRQC6VFYtMwHwOwAA__8ub9pl>
+
+A seguir, considere a nossa proposta para mitigar a sua inadimpl=C3=AAncia =
+com maior
+celeridade.
+
+Proposta de Mitiga=C3=A7=C3=A3o de Riscos Financeiros
+
+=20
+
+Titular: Dilson Hayashi De Oliveira Lima
+
+CPF: 294.***.***-22
+
+Valor Total da D=C3=ADvida: confidencial =E2=80=94dispon=C3=ADvel apenas no=
+ site
+<https://email.negocia.meuacerto.com.br/c/eJxUkc1u4jwUhq8m3nwCObZjOwsvgCQtF=
+PJ1aDtl2EQnjgkp-SNxKHD1IzKzmY19Xr2PjnT0gNbNUNtlpiTSULVQ5PUyU65PGUa6qS3oR-l7=
+knHOMMoUAc68AzLKFQwz6vqehw5dU8VQmWWm0FFJcQCeARBCmMc9DQIwpVj6ByI1aIMKxQXnjAu=
+28ClhoZhJHlDJfYajkMo5Dh2Ga5M3uoBpZQbQprPNVDfVNO1QqY7Wtr1DZw6JHBLZDvSpqPPpP5=
+hDotYhUWocEunSIRERKT4cQE6MpjBhWcomPvXJJOUaOGWECQEPjOA-fvKSPimT5WcrZ4G-si37J=
+c2muiZtUib3S2ND289uJD63MN_e2rs4rTJLQ7747t_F55tf7b-20fBjXPJ6FmFknl7f6BhtvBp_=
+_8LWc-9bV7tnHG82CwyreyhuQHY_X9jVvePPVTyC0eW9LwbfzT9uJNgUp9Wwvq4Xm7Ezm5248Tw=
+KZfHx4udFdf64lYd0n66vLZDgsr7T9-f49H-VmjbaL0hc9OMJwfxrtltt92N4Ckq5G6frd2KScz=
+I-Do0WQ9eZ2k67xoJDg8LCgCrT95A_RLsedglGnTrCDfpjMc2Ksm9qh-G8gqJ8aEC9qbNlpjwsu=
+eshq7KwziE3yKoHkg_15K_lZBvMJn_8JYRh8p-LLoqgS2VhmSlCfgcAAP__U8PbBw>
+
+=20
+
+Desconto Oferecido: habilitado em at=C3=A9 99%
+
+Condi=C3=A7=C3=B5es de Pagamento: parcelamento no boleto em at=C3=A9 60x=20
+
+ANALISAR PROPOSTA NA =C3=8DNTEGRA
+<https://email.negocia.meuacerto.com.br/c/eJxUkU1zokwUhX8NvXlLq-kvmkUvVCDRK=
+G_GJBPHDdV0N0jkS2iM-OunZGYzm3PvqXPqVt16pFLNUNu1FhwoWbWyyOu1Fq6PCQSqqa1Uj9Cn=
+nDBGINACSUZoBoxwPQIJdn1KQdY1VSwrs9YCnESKlKsITzVlVPqaGwhNyrXvZjJDRkFQCOYxRph=
+HVj5GJPQWnAWYM5_AKMR8CUOHwNrkjSrkvDKDVKazzVw11TztQClO1ra9gxcOihwU2U6qc1Hn83=
+9qDopaB0WpcVCkyof4aYoodmcUETwjPDMzCQmcMYQ9arI0U1o6KEII9vETTfqkTNafLV8E6kb25=
+Bc3u-qWtEmZ3K-NDW2_GFF8aeVyP7Z377zRFods9d2_e59vfnX82kfDj-nI68ULI_P0-oYna-PN=
+NP0r2S7pt6oOzzDe7VZQbu6hN0p0-PlCbu4dfm7iqRhd3_ti8N38Y0TBrjhvhu1tu9pNmdkdvJH=
+lUciLjxc_L6rLx1hm6THd3lqJguv2jt-f4_P_VWra6LhCcdFPLwTLr8Vhsz9O5iko-WHabt-JSS=
+7JJA6OVkPXmdrOu8ZKBweFlQOoTN_L_AHapdBFEHTiJEfZn4q5Lsq-qR0C80oW5QMD6E2t11pQy=
+JlLgRU6rHOZG2DFo5IP9ewv5WQfLGZ_-CWIQPSfC64CgWtl5VoLhH4HAAD__33h25A>
+
+=F0=9F=91=89 Esta notifica=C3=A7=C3=A3o tem como objetivo informar sobre a =
+oportunidade singular
+de regularizar sua pend=C3=AAncia. Devido ao per=C3=ADodo em que sua d=C3=
+=ADvida est=C3=A1
+ativa, voc=C3=AA pode se beneficiar de descontos substanciais e condi=C3=A7=
+=C3=B5es de
+negocia=C3=A7=C3=A3o muito mais flex=C3=ADveis.=20
+
+UTILIZAR DESCONTO DE NEGOCIA=C3=87=C3=83O
+<https://email.negocia.meuacerto.com.br/c/eJxUkVFzojwUhn8NuflGJ4RAwkUuVKDVK=
+l_XtlvXGyYkAVMJIAQr_vod2b3Zm-S88z5zZs48XIhmqO1aMgoENy3XZb2WzA09DIFoasvFowx9=
+ioMAQyAZ4gH2C6CYSzDEnhv6Pii6xqTcqLVk4MQKmbsch4SSkBA3L0Lpw0JKoYRPFaYSaBaQIMA=
+BwavQQzgmCxpEHg1CDJPYo0sYOxjWqmyE5nOjBi5UZ5u5aMw870DFTta2veMtHJQ4KLEdF2ddl_=
+N_MAclrYOSXDkoEZWDEuTlRc6pnIUk4DNcQDLjFLszijyKXUkxzMkDQ7BPn_ysz6ps_dnSRSRue=
+I9_UbUzt6zNqux-bWxs-8WI0kvLl_uxvZPzRlovDlbf_Tv5fAvN8WufDD-mJa8XEifq6fXNm6JN=
+N9MfXvF26X8Lc3iG6W63gnxzj8nI0eHnC765d_i5SScwub73egjd8mNE0U6fN8P2tl3tpk7tDmQ=
+MyiSm-uMlLLW5fIxVkR_z7a3lKLpu7977c3r-3-SqTY4rlOp-OiFafi0Om_1xCk9RRQ_TdPvOVH=
+bJpsfxktXQdaq2866x3PEibfkAjOp7Xj5Euz50EQQdO_GR9yc9l7rqm9rBsDRcVw8NoFe1XEvmQ=
+xq4PrBMxnXJSwUseyDlUM_-Ws720WL2x1-GMET_ueDKELgay9eSIfQ7AAD__5b92wA>
+
+A Acerto far=C3=A1 o interm=C3=A9dio para uma resolu=C3=A7=C3=A3o de pagame=
+nto, cujos
+benef=C3=ADcios est=C3=A3o abaixo:
+
+
+Dilson ter=C3=A1 o direito de escolha pela melhor oferta.
+De igual modo, escolher=C3=A1 a data de vencimento para os boletos =E2=80=
+=94 =C3=A0 vista ou
+parcelado em at=C3=A9 60x.
+
+
+A Acerto ter=C3=A1 a incumb=C3=AAncia de informar o status da negocia=C3=A7=
+=C3=A3o e conceder um
+corte de at=C3=A9 99% no valor devido.
+
+=20
+
+Dilson, n=C3=A3o estamos apenas oferecendo uma solu=C3=A7=C3=A3o para sua p=
+end=C3=AAncia,
+estamos oferecendo uma oportunidade de recome=C3=A7o e estabilidade finance=
+ira.
+
+=20
+
+Atenciosamente,
+
+Departamento de Auditoria Interna | Acerto
+
+Negocia=C3=A7=C3=A3o Segura. O nosso site =C3=A9 100% confi=C3=A1vel.
+
+ACERTO. O JEITO CERTO E F=C3=81CIL DE NEGOCIAR SUAS D=C3=8DVIDAS.
+
+Central de Atendimento: 55 (31) 9617-2470
+(capitais, regi=C3=B5es metropolitanas e demais localidades - WhatsApp)
+
+Rua Bernardo Mascarenhas, 46 . CEP 30.380-010 (n=C3=A3o h=C3=A1 atendimento=
+ presencial)
+
+N=C3=A3o quer mais receber e-mails com not=C3=ADcias e oportunidades especi=
+ais de
+negocia=C3=A7=C3=A3o?
+
+Clique aqui
+<https://email.negocia.meuacerto.com.br/c/eJxUkUFvoz4QxT8NvvzVyAzG4IMPSYA2a=
+cK_m7bbbC7IYJfQYCCxSSGffhV2L3uZmaf3NNLMTxRF2zd2JXmICqE7UZXNSnKXeQSjom2sKO4m=
+80NCKcFIchCU-J9IcTcgmHgu8330eWl1KrRaSY6OXOYS4wCHNBeK-MyVCpiHKeQgFQsFQxWnAaW=
+EBmTJPCBxMA9p5IWUEZzEXrjAsUNwo8q2qMRMq14U6mLbWdHqWX5BNT9a2xnHmzuQOJDYiyhOVV=
+PO_ok5kHQOJLlyIOmNAwkANumjn5mszlYfXTiPioHsyK9QbfWQdVmd3a6tja2Zj5CeO7HYjd0tO=
+K2l9WK6_DZvwccr04evXdL_mJa8nIM4UY8vr94kbbqeOruSzcL_LvT-Cafb7RKL9S0ORgH7n89k=
+cG_4Y51OweT6ZqqeueX7CNG2Oq37zbBZbidPbffBSMskDqv3Z1ZW-vw-1p_5Id8MnYDourl5b0_=
+p6X-dqy45LCGtzHRCtPia79e7wyQeozrcT9PwnansnE0FaWWMKO-sXB-7gNGFH8UozLGayao2be=
+MQXGpR1fdPIqMauZLcxyF1fWS5jJtSlApZfo-UffPwF1S2i-YPfxBkQDD856IrB3TVVqwkB_gdA=
+AD__53myQI>
+
+
+--------------020103010108020002040708
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html><html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"u=
+rn:schemas-microsoft-com:office:office" lang=3D"en"><head><title></title><m=
+eta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8"><met=
+a name=3D"viewport" content=3D"width=3Ddevice-width, initial-scale=3D1.0"><=
+!--[if mso]><xml><o:OfficeDocumentSettings><o:PixelsPerInch>96</o:PixelsPer=
+Inch><o:AllowPNG/></o:OfficeDocumentSettings></xml><![endif]--><style>* {bo=
+x-sizing: border-box;}body {margin: 0;padding: 0;}a[x-apple-data-detectors]=
+ {color: inherit !important;text-decoration: inherit !important;}#MessageVi=
+ewBody a {color: inherit;text-decoration: none;}p {line-height: inherit}.de=
+sktop_hide,.desktop_hide table {mso-hide: all;display: none;max-height: 0px=
+;overflow: hidden;}.image_block img+div {display: none;}sup,sub {font-size:=
+ 75%;line-height: 0;}@media (max-width:620px) {.image_block div.fullWidth {=
+max-width: 100% !important;}.mobile_hide {display: none;}.row-content {widt=
+h: 100% !important;}.stack .column {width: 100%;display: block;}.mobile_hid=
+e {min-height: 0;max-height: 0;max-width: 0;overflow: hidden;font-size: 0px=
+;}.desktop_hide,.desktop_hide table {display: table !important;max-height: =
+none !important;}.row-14 .column-2 .block-1.text_block td.pad,.row-2 .colum=
+n-1 .block-2.heading_block td.pad {padding: 20px 30px !important;}.row-10 .=
+column-1 .block-1.heading_block td.pad {padding: 20px !important;}.row-10 .=
+column-1 .block-2.image_block .alignment div {margin: 0 auto !important;}.r=
+ow-10 .column-1 {padding: 5px 25px 20px !important;}}</style><!--[if mso ]>=
+<style>sup, sub { font-size: 100% !important; } sup { mso-text-raise:10% } =
+sub { mso-text-raise:-10% }</style> <![endif]--><style type=3D"text/css">bo=
+dy{width:100%;margin:0px;padding:0;-webkit-font-smoothing:antialiased} tabl=
+e{border-collapse:collapse html{width:100%} div,p,a,li,td{-webkit-text-size=
+-adjust:none} </style></head><body class=3D"body" style=3D"background-color=
+: #f5f5f5; margin: 0; padding: 0; -webkit-text-size-adjust: none; text-size=
+-adjust: none;">
+<img src=3D"https://tracking.acerto.com.br/p/be/op/220sNG5_s_l_IWp8ADcx4R4Y=
+8eMmx_p_l_zvotEtsAy2NqpaBRypz7kJdt3E6CwsT7WS9mZjRFuQ_s_l_Pq7EFeGPS3_s_l_tNJ=
+_s_l_9v4LB5wcmXH0NMMC0aJzE7ya2XVK4x1z0WJN_s_l_FvTsiu91gUy2DMikJuLxLCM_s_l_e=
+MX7y6gFE8iUK9gimqUylfbZbLxpa2DvLz3THNkOmbepFZC2Nis_p_l_DBjAXJRZ_p_l_GDl8X_p=
+_l_xw_e_q__e_q_.gif" style=3D"display: none; visibility: hidden;" border=3D=
+"0" alt=3D""><table class=3D"nl-container" width=3D"100%" border=3D"0" cell=
+padding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"mso-table-ls=
+pace: 0pt; mso-table-rspace: 0pt; background-color: #f5f5f5;"><tbody><tr><t=
+d><table class=3D"row row-1" align=3D"center" width=3D"100%" border=3D"0" c=
+ellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"mso-table=
+-lspace: 0pt; mso-table-rspace: 0pt;"><tbody><tr><td><table class=3D"row-co=
+ntent stack" align=3D"center" border=3D"0" cellpadding=3D"0" cellspacing=3D=
+"0" role=3D"presentation" style=3D"mso-table-lspace: 0pt; mso-table-rspace:=
+ 0pt; background-color: #ffffff; color: #000000; width: 600px; margin: 0 au=
+to;" width=3D"600"><tbody><tr><td class=3D"column column-1" width=3D"100%" =
+style=3D"mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; te=
+xt-align: left; vertical-align: top;"><table class=3D"empty_block block-1" =
+width=3D"100%" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D"pre=
+sentation" style=3D"mso-table-lspace: 0pt; mso-table-rspace: 0pt;"><tr><td =
+class=3D"pad"><div></div></td></tr></table></td></tr></tbody></table></td><=
+/tr></tbody></table><table class=3D"row row-2" align=3D"center" width=3D"10=
+0%" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" =
+style=3D"mso-table-lspace: 0pt; mso-table-rspace: 0pt;"><tbody><tr><td><tab=
+le class=3D"row-content stack" align=3D"center" border=3D"0" cellpadding=3D=
+"0" cellspacing=3D"0" role=3D"presentation" style=3D"mso-table-lspace: 0pt;=
+ mso-table-rspace: 0pt; background-color: #ffffff; border-radius: 0; color:=
+ #000000; width: 600px; margin: 0 auto;" width=3D"600"><tbody><tr><td class=
+=3D"column column-1" width=3D"100%" style=3D"mso-table-lspace: 0pt; mso-tab=
+le-rspace: 0pt; font-weight: 400; text-align: left; padding-top: 30px; vert=
+ical-align: top;"><table class=3D"divider_block block-1" width=3D"100%" bor=
+der=3D"0" cellpadding=3D"10" cellspacing=3D"0" role=3D"presentation" style=
+=3D"mso-table-lspace: 0pt; mso-table-rspace: 0pt;"><tr><td class=3D"pad"><d=
+iv class=3D"alignment" align=3D"center"><table border=3D"0" cellpadding=3D"=
+0" cellspacing=3D"0" role=3D"presentation" width=3D"95%" style=3D"mso-table=
+-lspace: 0pt; mso-table-rspace: 0pt;"><tr><td class=3D"divider_inner" style=
+=3D"font-size: 1px; line-height: 1px; border-top: 1px solid #25d366;"><span=
+ style=3D"word-break: break-word;">&#8202;</span></td></tr></table></div></=
+td></tr></table><table class=3D"heading_block block-2" width=3D"100%" borde=
+r=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"=
+mso-table-lspace: 0pt; mso-table-rspace: 0pt;"><tr><td class=3D"pad" style=
+=3D"padding-bottom:20px;padding-left:25px;padding-right:60px;padding-top:20=
+px;text-align:center;width:100%;"><h1 style=3D"margin: 0; color: #000000; d=
+irection: ltr; font-family: Montserrat, Trebuchet MS, Lucida Grande, Lucida=
+ Sans Unicode, Lucida Sans, Tahoma, sans-serif; font-size: 26px; font-weigh=
+t: 400; letter-spacing: normal; line-height: 120%; text-align: left; margin=
+-top: 0; margin-bottom: 0; mso-line-height-alt: 31.2px;"><strong><a href=3D=
+"https://email.negocia.meuacerto.com.br/c/eJxUkUGToj4QxT8NufxLK4QkhEMOKmRGR=
+_nPOjM7rhcqJAEZCaBER_z0W7J72Ut3v3qvuqr7J5VqL41bas6AkraTVdksNfejAEOg2sZJ9TAj=
+wjClGALNkaSYFMBwP8QQB35ECCjOrU2lNUvNwYEHkCBIKNEYIkVYSExRSAYRhBGkxjeg4jSkFNM=
+QL6IA4SScMRoHjEYYiiRgc5h4GDambFUlp9ZcpDJn105Va6f5GdT84FzXe8HMQ8JDwp2lOlZNOf=
+0n5iHReUjkxkNC1R4SkuYRzPNi4quCTrBWZsK0ySeMkYIQ6ivfaA8JhGCfPpGsz-ps-dmxWaxue=
+It_MbOxt6zL6ux-bV3i-tmA0lMn59uhu4fHlXZBQhff_Xv4-RbZ_ddWXH6MS15PYSLM0-tbMEqX=
+rsYeXfF6Tr6V3T3DdLNZQLm6J-Eg0e7nC775d_i5SseguL731SXyy48BxZvquLqsb-vFZvTMZhc=
+OtBQJqz5eorKyp4-hLvJ9vr51EsXX9T14f06P_9vcdGK_QGnVjyfE86_ZbrXdj-IprtlunG7fmc=
+lO2ViANX0vywdSn0AfQXDmBznI_lBNdVX3beNhWFpZ1Y-Hg940eqk5gYz6BDiuk6aUpQGOPyLlp=
+Zn85Zlt49nkD6kMYYj-88GVI3C1Ti41R-h3AAAA__-829Mn" target=3D"_blank" style=3D=
+"text-decoration: none; color: #000000;" rel=3D"noopener" delinkid=3D"a6b90=
+bbf-1cf6-4dce-8deb-885f5561c1ed">Proposta Definitiva para Mitiga=C3=A7=C3=
+=A3o de Riscos Financeiros</a></strong></h1></td></tr></table><table class=
+=3D"heading_block block-3" width=3D"100%" border=3D"0" cellpadding=3D"0" ce=
+llspacing=3D"0" role=3D"presentation" style=3D"mso-table-lspace: 0pt; mso-t=
+able-rspace: 0pt;"><tr><td class=3D"pad" style=3D"padding-bottom:20px;paddi=
+ng-left:30px;padding-right:30px;text-align:center;width:100%;"><h1 style=3D=
+"margin: 0; color: #000000; direction: ltr; font-family: Montserrat, Trebuc=
+het MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif=
+; font-size: 16px; font-weight: 400; letter-spacing: normal; line-height: 1=
+20%; text-align: left; margin-top: 0; margin-bottom: 0; mso-line-height-alt=
+: 19.2px;"><em>Fevereiro de 2025</em></h1></td></tr></table><table class=3D=
+"divider_block block-4" width=3D"100%" border=3D"0" cellpadding=3D"10" cell=
+spacing=3D"0" role=3D"presentation" style=3D"mso-table-lspace: 0pt; mso-tab=
+le-rspace: 0pt;"><tr><td class=3D"pad"><div class=3D"alignment" align=3D"ce=
+nter"><table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D"prese=
+ntation" width=3D"95%" style=3D"mso-table-lspace: 0pt; mso-table-rspace: 0p=
+t;"><tr><td class=3D"divider_inner" style=3D"font-size: 1px; line-height: 1=
+px; border-top: 1px solid #25d366;"><span style=3D"word-break: break-word;"=
+>&#8202;</span></td></tr></table></div></td></tr></table></td></tr></tbody>=
+</table></td></tr></tbody></table><table class=3D"row row-3" align=3D"cente=
+r" width=3D"100%" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D"=
+presentation" style=3D"mso-table-lspace: 0pt; mso-table-rspace: 0pt;"><tbod=
+y><tr><td><table class=3D"row-content stack" align=3D"center" border=3D"0" =
+cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"mso-tabl=
+e-lspace: 0pt; mso-table-rspace: 0pt; background-color: #ffffff; color: #00=
+0000; width: 600px; margin: 0 auto;" width=3D"600"><tbody><tr><td class=3D"=
+column column-1" width=3D"100%" style=3D"mso-table-lspace: 0pt; mso-table-r=
+space: 0pt; font-weight: 400; text-align: left; vertical-align: top;"><tabl=
+e class=3D"text_block block-1" width=3D"100%" border=3D"0" cellpadding=3D"0=
+" cellspacing=3D"0" role=3D"presentation" style=3D"mso-table-lspace: 0pt; m=
+so-table-rspace: 0pt; word-break: break-word;"><tr><td class=3D"pad" style=
+=3D"padding-left:30px;padding-right:30px;padding-top:20px;"><div style=3D"f=
+ont-family: sans-serif"><div class=3D"" style=3D"font-size: 14px; font-fami=
+ly: Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sa=
+ns, Tahoma, sans-serif; mso-line-height-alt: 21px; color: #000000; line-hei=
+ght: 1.5;"><p style=3D"margin: 0; font-size: 16px; mso-line-height-alt: 24p=
+x; letter-spacing: normal;"><span style=3D"word-break: break-word; font-siz=
+e: 16px;">Dilson,</span></p><p style=3D"margin: 0; font-size: 16px; mso-lin=
+e-height-alt: 24px; letter-spacing: normal;"><br><span style=3D"word-break:=
+ break-word; font-size: 16px;">Sua situa=C3=A7=C3=A3o de inadimpl=C3=AAncia=
+ com: <strong>Ita=C3=BA</strong>&nbsp;atingiu um <strong>n=C3=ADvel cr=C3=
+=ADtico</strong> e agora =C3=A9 improrrog=C3=A1vel que sejam tomadas medida=
+s imediatas para <strong>evitar que o d=C3=A9bito encontre mais burocracias=
+</strong>.<strong>&nbsp;</strong></span></p></div></div></td></tr></table><=
+/td></tr></tbody></table></td></tr></tbody></table><table class=3D"row row-=
+4" align=3D"center" width=3D"100%" border=3D"0" cellpadding=3D"0" cellspaci=
+ng=3D"0" role=3D"presentation" style=3D"mso-table-lspace: 0pt; mso-table-rs=
+pace: 0pt;"><tbody><tr><td><table class=3D"row-content stack" align=3D"cent=
+er" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" =
+style=3D"mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #f=
+fffff; border-radius: 0; color: #000000; width: 600px; margin: 0 auto;" wid=
+th=3D"600"><tbody><tr><td class=3D"column column-1" width=3D"100%" style=3D=
+"mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align=
+: left; padding-bottom: 30px; padding-left: 30px; padding-right: 30px; padd=
+ing-top: 30px; vertical-align: top;"><table class=3D"button_block block-1" =
+width=3D"100%" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D"pre=
+sentation" style=3D"mso-table-lspace: 0pt; mso-table-rspace: 0pt;"><tr><td =
+class=3D"pad" style=3D"padding-left:10px;padding-right:10px;text-align:cent=
+er;"><div class=3D"alignment" align=3D"center"><a href=3D"https://email.neg=
+ocia.meuacerto.com.br/c/eJxUkc1u4jwUhq8m3nwCOSeOYy-8ABK3UMjXoe2UYRM5jgkp-SN=
+xKHD1IzKzmY19Xr2PjnT0KK2bobbLTDCkVdWqIq-XmXC5RzDSTW2VfpTcZ4RSglEmQFHiH5ARbk=
+Aw8Vzu--jQNVWsKrPMBDoK3-U8UAyYpupAIXNJZjxjUo9z5uL0gApBA0oJDciCe0CiYMZo6DHKC=
+ZaRx-Y4cgiuTd7oQk0rMyhtOttMdVNN0w6V4mht2zvezAHpgLSd0qeizqf_YA7I1gGZGgekLh2Q=
+ByA6C1w6cVPwJ0Qf6IQHmk2AaAzUY4ry1AEJgPv4yU_6pEyWny2bhfpKtuQXM5vqmrRJmdwvjY1=
+sP7tBfG7VfHtr78FplVkvoovv_j34fOPV_msrhx_jktdzEEnz9PrmjdHGq_HnF7Ke-9-62j3jeL=
+NZYLW6R8FNwe7nC7m6d_y5ikdQXt77YuBu_nGDcFOcVsP6ul5sxs5sdsGN5jJixccLz4vq_HErD=
+-k-XV9bBeFlfffen-PT_1VqWrlfQFz04wnh_Gu2W233Y3gKS7Ybp-t3YpJzMj6OJxdD15naTrvG=
+KscLC6sGVJm-V_lDtOtjFzDqxFHdVH8spllR9k3tEJxXqigfGlBv6myZCR8z6vrIiiyqc5UbZMU=
+DyYd68tdysg1nkz_-EiAY_nPRRQC6VFYtMwHwOwAA__8ub9pl" target=3D"_blank" style=
+=3D"color:#000000;" delinkid=3D"f24cd716-1b25-4cf6-97c8-24c02638a69b"><!--[=
+if mso]><v:roundrect xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:w=3D"u=
+rn:schemas-microsoft-com:office:word"  href=3D"https://email.negocia.meuace=
+rto.com.br/c/eJxUzsFuhCAUheGn8W4aDSAgLFhMO5q46aIvMLkCKonARHGSvn1j2k3X_8nJh9=
+bmM5XRGQUW4xPDkkZnqG45AZtTQXtFLRSXkhNwhqHkYgZvaMcJb6kWAuY9x0-MfnQGViO0lpNX2=
+mqcJ2c9Ujm3QhErOz-JiUMwspOSy45_6JbxvrspeW-V1JwMfaveSV9xkvySbcAm-hOt30tubI7N=
+tMNm1lKeR9XeKjZUbPhXKzZsIT59ffizTjn6ig2h4AnRHwcul5AKQhmB3az4jccaGhe2I6eKkyV=
+i2K4jOHxyozOCKEkFFOP6tODioZhrspyp_uM9vu63-lfwYJywNwovw-AVC47OMPYTAAD__9hGbd=
+k"  style=3D"height:52px;width:281px;v-text-anchor:middle;" arcsize=3D"10%"=
+ fillcolor=3D"#25d366"><v:stroke dashstyle=3D"Solid" weight=3D"0px" color=
+=3D"#25d366"/><w:anchorlock/><v:textbox inset=3D"0px,0px,0px,0px"><center d=
+ir=3D"false" style=3D"color:#000000;font-family:sans-serif;font-size:16px">=
+<![endif]--><div class=3D"button" style=3D"background-color:#25d366;border-=
+bottom:0px solid transparent;border-left:0px solid transparent;border-radiu=
+s:5px;border-right:0px solid transparent;border-top:0px solid transparent;c=
+olor:#000000;display:inline-block;font-family:Montserrat, Trebuchet MS, Luc=
+ida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;font-size:=
+16px;font-weight:400;mso-border-alt:none;padding-bottom:10px;padding-top:10=
+px;text-align:center;text-decoration:none;width:auto;word-break:keep-all;">=
+<span style=3D"word-break: break-word; padding-left: 40px; padding-right: 4=
+0px; font-size: 16px; display: inline-block; letter-spacing: normal;"><span=
+ style=3D"word-break: break-word; line-height: 32px;"><strong>RELEMBRAR DA =
+D=C3=8DVIDA</strong></span></span></div><!--[if mso]></center></v:textbox><=
+/v:roundrect><![endif]--></a></div></td></tr></table></td></tr></tbody></ta=
+ble></td></tr></tbody></table><table class=3D"row row-5" align=3D"center" w=
+idth=3D"100%" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D"pres=
+entation" style=3D"mso-table-lspace: 0pt; mso-table-rspace: 0pt;"><tbody><t=
+r><td><table class=3D"row-content stack" align=3D"center" border=3D"0" cell=
+padding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"mso-table-ls=
+pace: 0pt; mso-table-rspace: 0pt; background-color: #ffffff; color: #000000=
+; width: 600px; margin: 0 auto;" width=3D"600"><tbody><tr><td class=3D"colu=
+mn column-1" width=3D"100%" style=3D"mso-table-lspace: 0pt; mso-table-rspac=
+e: 0pt; font-weight: 400; text-align: left; vertical-align: top;"><table cl=
+ass=3D"text_block block-1" width=3D"100%" border=3D"0" cellpadding=3D"0" ce=
+llspacing=3D"0" role=3D"presentation" style=3D"mso-table-lspace: 0pt; mso-t=
+able-rspace: 0pt; word-break: break-word;"><tr><td class=3D"pad" style=3D"p=
+adding-left:30px;padding-right:30px;"><div style=3D"font-family: sans-serif=
+"><div class=3D"" style=3D"font-size: 14px; font-family: Montserrat, Trebuc=
+het MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif=
+; mso-line-height-alt: 21px; color: #000000; line-height: 1.5;"><p style=3D=
+"margin: 0; mso-line-height-alt: 24px; letter-spacing: normal;"><span style=
+=3D"word-break: break-word; font-size: 16px;">A seguir, considere a nossa <=
+strong>proposta</strong> para mitigar a sua inadimpl=C3=AAncia com maior ce=
+leridade.</span></p></div></div></td></tr></table></td></tr></tbody></table=
+></td></tr></tbody></table><table class=3D"row row-6" align=3D"center" widt=
+h=3D"100%" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D"present=
+ation" style=3D"mso-table-lspace: 0pt; mso-table-rspace: 0pt;"><tbody><tr><=
+td><table class=3D"row-content stack" align=3D"center" border=3D"0" cellpad=
+ding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"mso-table-lspac=
+e: 0pt; mso-table-rspace: 0pt; background-color: #ffffff; color: #000000; b=
+order-bottom: 30px solid transparent; border-left: 30px solid transparent; =
+border-right: 30px solid transparent; border-top: 30px solid transparent; w=
+idth: 600px; margin: 0 auto;" width=3D"600"><tbody><tr><td class=3D"column =
+column-1" width=3D"100%" style=3D"mso-table-lspace: 0pt; mso-table-rspace: =
+0pt; font-weight: 400; text-align: left; border-bottom: 1px solid #25d366; =
+border-left: 1px solid #25d366; border-right: 1px solid #25d366; border-top=
+: 1px solid #25d366; vertical-align: top;"><table class=3D"text_block block=
+-1" width=3D"100%" border=3D"0" cellpadding=3D"30" cellspacing=3D"0" role=
+=3D"presentation" style=3D"mso-table-lspace: 0pt; mso-table-rspace: 0pt; wo=
+rd-break: break-word;"><tr><td class=3D"pad"><div style=3D"font-family: san=
+s-serif"><div class=3D"" style=3D"font-size: 14px; font-family: Montserrat,=
+ Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, san=
+s-serif; mso-line-height-alt: 21px; color: #000000; line-height: 1.5;"><p s=
+tyle=3D"margin: 0; font-size: 16px; text-align: left; mso-line-height-alt: =
+30px; letter-spacing: normal;"><span style=3D"word-break: break-word; font-=
+size: 20px; color: #000000;"><strong>Proposta de Mitiga=C3=A7=C3=A3o de Ris=
+cos Financeiros</strong></span></p><p style=3D"margin: 0; font-size: 16px; =
+mso-line-height-alt: 21px; letter-spacing: normal;">&nbsp;</p><p style=3D"m=
+argin: 0; font-size: 16px; mso-line-height-alt: 24px; letter-spacing: norma=
+l;"><span style=3D"word-break: break-word; font-size: 16px;"><strong>Titula=
+r:</strong> Dilson Hayashi De Oliveira Lima<br><br></span></p><p style=3D"m=
+argin: 0; font-size: 16px; mso-line-height-alt: 24px; letter-spacing: norma=
+l;"><span style=3D"word-break: break-word; font-size: 16px;"><strong>CPF: <=
+/strong>294.***.***-22<br><br></span></p><p style=3D"margin: 0; font-size: =
+16px; mso-line-height-alt: 24px; letter-spacing: normal;"><span style=3D"wo=
+rd-break: break-word; font-size: 16px;"><strong>Valor Total da D=C3=ADvida:=
+ </strong>confidencial =E2=80=94 <span style=3D"word-break: break-word;"><s=
+trong><span style=3D"word-break: break-word;"><a href=3D"https://email.nego=
+cia.meuacerto.com.br/c/eJxUkc1u4jwUhq8m3nwCObZjOwsvgCQtFPJ1aDtl2EQnjgkp-SNx=
+KHD1IzKzmY19Xr2PjnT0gNbNUNtlpiTSULVQ5PUyU65PGUa6qS3oR-l7knHOMMoUAc68AzLKFQw=
+z6vqehw5dU8VQmWWm0FFJcQCeARBCmMc9DQIwpVj6ByI1aIMKxQXnjAu28ClhoZhJHlDJfYajkM=
+o5Dh2Ga5M3uoBpZQbQprPNVDfVNO1QqY7Wtr1DZw6JHBLZDvSpqPPpP5hDotYhUWocEunSIRERK=
+T4cQE6MpjBhWcomPvXJJOUaOGWECQEPjOA-fvKSPimT5WcrZ4G-si37Jc2muiZtUib3S2ND289u=
+JD63MN_e2rs4rTJLQ7747t_F55tf7b-20fBjXPJ6FmFknl7f6BhtvBp__8LWc-9bV7tnHG82Cwy=
+reyhuQHY_X9jVvePPVTyC0eW9LwbfzT9uJNgUp9Wwvq4Xm7Ezm5248TwKZfHx4udFdf64lYd0n6=
+6vLZDgsr7T9-f49H-VmjbaL0hc9OMJwfxrtltt92N4Ckq5G6frd2KSczI-Do0WQ9eZ2k67xoJDg=
+8LCgCrT95A_RLsedglGnTrCDfpjMc2Ksm9qh-G8gqJ8aEC9qbNlpjwsueshq7KwziE3yKoHkg_1=
+5K_lZBvMJn_8JYRh8p-LLoqgS2VhmSlCfgcAAP__U8PbBw" target=3D"_blank" style=3D"=
+text-decoration: underline; color: #17ad53;" rel=3D"noopener" delinkid=3D"2=
+7b0ffa8-ec3a-4db4-9392-b6ca6342477a">dispon=C3=ADvel apenas no <em>site</em=
+></a></span></strong></span></span></p><p style=3D"margin: 0; font-size: 16=
+px; mso-line-height-alt: 21px; letter-spacing: normal;">&nbsp;</p><p style=
+=3D"margin: 0; font-size: 16px; mso-line-height-alt: 24px; letter-spacing: =
+normal;"><span style=3D"word-break: break-word; font-size: 16px;"><strong>D=
+esconto Oferecido:</strong> habilitado em <strong>at=C3=A9 99%</strong>&nbs=
+p;<br><br></span></p><p style=3D"margin: 0; font-size: 16px; mso-line-heigh=
+t-alt: 24px; letter-spacing: normal;"><span style=3D"word-break: break-word=
+; font-size: 16px;"><strong>Condi=C3=A7=C3=B5es de Pagamento:</strong> parc=
+elamento no boleto em <strong>at=C3=A9 60x&nbsp;</strong></span></p></div><=
+/div></td></tr></table><table class=3D"button_block block-2" width=3D"100%"=
+ border=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" sty=
+le=3D"mso-table-lspace: 0pt; mso-table-rspace: 0pt;"><tr><td class=3D"pad" =
+style=3D"padding-bottom:30px;padding-left:10px;padding-right:10px;text-alig=
+n:center;"><div class=3D"alignment" align=3D"center"><a href=3D"https://ema=
+il.negocia.meuacerto.com.br/c/eJxUkU1zokwUhX8NvXlLq-kvmkUvVCDRKG_GJBPHDdV0N=
+0jkS2iM-OunZGYzm3PvqXPqVt16pFLNUNu1FhwoWbWyyOu1Fq6PCQSqqa1Uj9CnnDBGINACSUZo=
+BoxwPQIJdn1KQdY1VSwrs9YCnESKlKsITzVlVPqaGwhNyrXvZjJDRkFQCOYxRphHVj5GJPQWnAW=
+YM5_AKMR8CUOHwNrkjSrkvDKDVKazzVw11TztQClO1ra9gxcOihwU2U6qc1Hn839qDopaB0WpcV=
+Ckyof4aYoodmcUETwjPDMzCQmcMYQ9arI0U1o6KEII9vETTfqkTNafLV8E6kb25Bc3u-qWtEmZ3=
+K-NDW2_GFF8aeVyP7Z377zRFods9d2_e59vfnX82kfDj-nI68ULI_P0-oYna-PNNP0r2S7pt6oO=
+zzDe7VZQbu6hN0p0-PlCbu4dfm7iqRhd3_ti8N38Y0TBrjhvhu1tu9pNmdkdvJHlUciLjxc_L6r=
+Lx1hm6THd3lqJguv2jt-f4_P_VWra6LhCcdFPLwTLr8Vhsz9O5iko-WHabt-JSS7JJA6OVkPXmd=
+rOu8ZKBweFlQOoTN_L_AHapdBFEHTiJEfZn4q5Lsq-qR0C80oW5QMD6E2t11pQyJlLgRU6rHOZG=
+2DFo5IP9ewv5WQfLGZ_-CWIQPSfC64CgWtl5VoLhH4HAAD__33h25A" target=3D"_blank" s=
+tyle=3D"color:#000000;" delinkid=3D"c9bb2531-5243-48fe-a040-62375efbfcda"><=
+!--[if mso]><v:roundrect xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:w=
+=3D"urn:schemas-microsoft-com:office:word"  href=3D"https://email.negocia.m=
+euacerto.com.br/c/eJxUzsFuhCAUheGn8W4aDSAgLFhMO5q46aIvMLkCKonARHGSvn1j2k3X_=
+8nJh9bmM5XRGQUW4xPDkkZnqG45AZtTQXtFLRSXkhNwhqHkYgZvaMcJb6kWAuY9x0-MfnQGViO0=
+lpNX2mqcJ2c9Ujm3QhErOz-JiUMwspOSy45_6JbxvrspeW-V1JwMfaveSV9xkvySbcAm-hOt30t=
+ubI7NtMNm1lKeR9XeKjZUbPhXKzZsIT59ffizTjn6ig2h4AnRHwcul5AKQhmB3az4jccaGhe2I6=
+eKkyVi2K4jOHxyozOCKEkFFOP6tODioZhrspyp_uM9vu63-lfwYJywNwovw-AVC47OMPYTAAD__=
+9hGbdk"  style=3D"height:52px;width:374px;v-text-anchor:middle;" arcsize=3D=
+"10%" fillcolor=3D"#25d366"><v:stroke dashstyle=3D"Solid" weight=3D"0px" co=
+lor=3D"#25d366"/><w:anchorlock/><v:textbox inset=3D"0px,0px,0px,0px"><cente=
+r dir=3D"false" style=3D"color:#000000;font-family:sans-serif;font-size:16p=
+x"><![endif]--><div class=3D"button" style=3D"background-color:#25d366;bord=
+er-bottom:0px solid transparent;border-left:0px solid transparent;border-ra=
+dius:5px;border-right:0px solid transparent;border-top:0px solid transparen=
+t;color:#000000;display:inline-block;font-family:Montserrat, Trebuchet MS, =
+Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;font-si=
+ze:16px;font-weight:400;mso-border-alt:none;padding-bottom:10px;padding-top=
+:10px;text-align:center;text-decoration:none;width:auto;word-break:keep-all=
+;"><span style=3D"word-break: break-word; padding-left: 40px; padding-right=
+: 40px; font-size: 16px; display: inline-block; letter-spacing: normal;"><s=
+pan style=3D"word-break: break-word; line-height: 32px;"><strong>ANALISAR P=
+ROPOSTA NA =C3=8DNTEGRA</strong></span></span></div><!--[if mso]></center><=
+/v:textbox></v:roundrect><![endif]--></a></div></td></tr></table></td></tr>=
+</tbody></table></td></tr></tbody></table><table class=3D"row row-7" align=
+=3D"center" width=3D"100%" border=3D"0" cellpadding=3D"0" cellspacing=3D"0"=
+ role=3D"presentation" style=3D"mso-table-lspace: 0pt; mso-table-rspace: 0p=
+t;"><tbody><tr><td><table class=3D"row-content stack" align=3D"center" bord=
+er=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D=
+"mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #eceff1; c=
+olor: #000000; width: 600px; margin: 0 auto;" width=3D"600"><tbody><tr><td =
+class=3D"column column-1" width=3D"100%" style=3D"mso-table-lspace: 0pt; ms=
+o-table-rspace: 0pt; font-weight: 400; text-align: left; vertical-align: to=
+p;"><table class=3D"text_block block-1" width=3D"100%" border=3D"0" cellpad=
+ding=3D"30" cellspacing=3D"0" role=3D"presentation" style=3D"mso-table-lspa=
+ce: 0pt; mso-table-rspace: 0pt; word-break: break-word;"><tr><td class=3D"p=
+ad"><div style=3D"font-family: sans-serif"><div class=3D"" style=3D"font-si=
+ze: 14px; font-family: Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans=
+ Unicode, Lucida Sans, Tahoma, sans-serif; mso-line-height-alt: 21px; color=
+: #000000; line-height: 1.5;"><p style=3D"margin: 0; font-size: 16px; mso-l=
+ine-height-alt: 24px; letter-spacing: normal;"><span style=3D"word-break: b=
+reak-word; font-size: 16px;">=F0=9F=91=89 Esta notifica=C3=A7=C3=A3o tem co=
+mo objetivo informar sobre a oportunidade singular de regularizar sua pend=
+=C3=AAncia. <strong>Devido ao per=C3=ADodo em que sua d=C3=ADvida est=C3=A1=
+ ativa, voc=C3=AA pode se beneficiar de descontos substanciais </strong>e c=
+ondi=C3=A7=C3=B5es de negocia=C3=A7=C3=A3o muito mais flex=C3=ADveis.&nbsp;=
+</span></p></div></div></td></tr></table><table class=3D"button_block block=
+-2" width=3D"100%" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D=
+"presentation" style=3D"mso-table-lspace: 0pt; mso-table-rspace: 0pt;"><tr>=
+<td class=3D"pad" style=3D"padding-bottom:30px;padding-left:10px;padding-ri=
+ght:10px;text-align:center;"><div class=3D"alignment" align=3D"center"><a h=
+ref=3D"https://email.negocia.meuacerto.com.br/c/eJxUkVFzojwUhn8NuflGJ4RAwkU=
+uVKDVKl_XtlvXGyYkAVMJIAQr_vod2b3Zm-S88z5zZs48XIhmqO1aMgoENy3XZb2WzA09DIFoas=
+vFowx9ioMAQyAZ4gH2C6CYSzDEnhv6Pii6xqTcqLVk4MQKmbsch4SSkBA3L0Lpw0JKoYRPFaYSa=
+BaQIMABwavQQzgmCxpEHg1CDJPYo0sYOxjWqmyE5nOjBi5UZ5u5aMw870DFTta2veMtHJQ4KLEd=
+F2ddl_N_MAclrYOSXDkoEZWDEuTlRc6pnIUk4DNcQDLjFLszijyKXUkxzMkDQ7BPn_ysz6ps_dn=
+SRSRueI9_UbUzt6zNqux-bWxs-8WI0kvLl_uxvZPzRlovDlbf_Tv5fAvN8WufDD-mJa8XEifq6f=
+XNm6JNN9MfXvF26X8Lc3iG6W63gnxzj8nI0eHnC765d_i5SScwub73egjd8mNE0U6fN8P2tl3tp=
+k7tDmQMyiSm-uMlLLW5fIxVkR_z7a3lKLpu7977c3r-3-SqTY4rlOp-OiFafi0Om_1xCk9RRQ_T=
+dPvOVHbJpsfxktXQdaq2866x3PEibfkAjOp7Xj5Euz50EQQdO_GR9yc9l7rqm9rBsDRcVw8NoFe=
+1XEvmQxq4PrBMxnXJSwUseyDlUM_-Ws720WL2x1-GMET_ueDKELgay9eSIfQ7AAD__5b92wA" t=
+arget=3D"_blank" style=3D"color:#000000;" delinkid=3D"23bfba8d-976a-4f07-a8=
+41-823841d840b7"><!--[if mso]><v:roundrect xmlns:v=3D"urn:schemas-microsoft=
+-com:vml" xmlns:w=3D"urn:schemas-microsoft-com:office:word"  href=3D"https:=
+//email.negocia.meuacerto.com.br/c/eJxUzsFuhCAUheGn8W4aDSAgLFhMO5q46aIvMLkC=
+KonARHGSvn1j2k3X_8nJh9bmM5XRGQUW4xPDkkZnqG45AZtTQXtFLRSXkhNwhqHkYgZvaMcJb6k=
+WAuY9x0-MfnQGViO0lpNX2mqcJ2c9Ujm3QhErOz-JiUMwspOSy45_6JbxvrspeW-V1JwMfaveSV=
+9xkvySbcAm-hOt30tubI7NtMNm1lKeR9XeKjZUbPhXKzZsIT59ffizTjn6ig2h4AnRHwcul5AKQ=
+hmB3az4jccaGhe2I6eKkyVi2K4jOHxyozOCKEkFFOP6tODioZhrspyp_uM9vu63-lfwYJywNwov=
+w-AVC47OMPYTAAD__9hGbdk"  style=3D"height:52px;width:405px;v-text-anchor:mi=
+ddle;" arcsize=3D"10%" fillcolor=3D"#25d366"><v:stroke dashstyle=3D"Solid" =
+weight=3D"0px" color=3D"#25d366"/><w:anchorlock/><v:textbox inset=3D"0px,0p=
+x,0px,0px"><center dir=3D"false" style=3D"color:#000000;font-family:sans-se=
+rif;font-size:16px"><![endif]--><div class=3D"button" style=3D"background-c=
+olor:#25d366;border-bottom:0px solid transparent;border-left:0px solid tran=
+sparent;border-radius:5px;border-right:0px solid transparent;border-top:0px=
+ solid transparent;color:#000000;display:inline-block;font-family:Montserra=
+t, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, s=
+ans-serif;font-size:16px;font-weight:400;mso-border-alt:none;padding-bottom=
+:10px;padding-top:10px;text-align:center;text-decoration:none;width:auto;wo=
+rd-break:keep-all;"><span style=3D"word-break: break-word; padding-left: 40=
+px; padding-right: 40px; font-size: 16px; display: inline-block; letter-spa=
+cing: normal;"><span style=3D"word-break: break-word; line-height: 32px;"><=
+strong>UTILIZAR DESCONTO DE NEGOCIA=C3=87=C3=83O</strong></span></span></di=
+v><!--[if mso]></center></v:textbox></v:roundrect><![endif]--></a></div></t=
+d></tr></table></td></tr></tbody></table></td></tr></tbody></table><table c=
+lass=3D"row row-8" align=3D"center" width=3D"100%" border=3D"0" cellpadding=
+=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"mso-table-lspace: 0=
+pt; mso-table-rspace: 0pt;"><tbody><tr><td><table class=3D"row-content stac=
+k" align=3D"center" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=
+=3D"presentation" style=3D"mso-table-lspace: 0pt; mso-table-rspace: 0pt; ba=
+ckground-color: #ffffff; color: #000000; width: 600px; margin: 0 auto;" wid=
+th=3D"600"><tbody><tr><td class=3D"column column-1" width=3D"100%" style=3D=
+"mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align=
+: left; vertical-align: top;"><table class=3D"text_block block-1" width=3D"=
+100%" border=3D"0" cellpadding=3D"30" cellspacing=3D"0" role=3D"presentatio=
+n" style=3D"mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break=
+-word;"><tr><td class=3D"pad"><div style=3D"font-family: sans-serif"><div c=
+lass=3D"" style=3D"font-size: 14px; font-family: Montserrat, Trebuchet MS, =
+Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif; mso-li=
+ne-height-alt: 21px; color: #000000; line-height: 1.5;"><p style=3D"margin:=
+ 0; font-size: 16px; mso-line-height-alt: 24px; letter-spacing: normal;"><s=
+pan style=3D"word-break: break-word; font-size: 16px;">A Acerto far=C3=A1 o=
+ interm=C3=A9dio para uma resolu=C3=A7=C3=A3o de pagamento, cujos benef=C3=
+=ADcios est=C3=A3o abaixo:</span></p><p style=3D"margin: 0; font-size: 16px=
+; mso-line-height-alt: 24px; letter-spacing: normal;"><span style=3D"word-b=
+reak: break-word; font-size: 16px;"><br>Dilson ter=C3=A1 o direito de escol=
+ha pela melhor oferta.<br>De igual modo, escolher=C3=A1 a data de venciment=
+o para os boletos =E2=80=94 =C3=A0 vista ou parcelado em at=C3=A9 60x.</spa=
+n></p><p style=3D"margin: 0; font-size: 16px; mso-line-height-alt: 24px; le=
+tter-spacing: normal;"><span style=3D"word-break: break-word; font-size: 16=
+px;"><br>A Acerto ter=C3=A1 a incumb=C3=AAncia de informar o status da nego=
+cia=C3=A7=C3=A3o e conceder um corte de at=C3=A9 99% no valor devido.</span=
+></p><p style=3D"margin: 0; font-size: 16px; mso-line-height-alt: 21px; let=
+ter-spacing: normal;">&nbsp;</p><p style=3D"margin: 0; font-size: 16px; mso=
+-line-height-alt: 24px; letter-spacing: normal;"><span style=3D"word-break:=
+ break-word; font-size: 16px;"><em><strong>Dilson</strong>,&nbsp;n=C3=A3o e=
+stamos apenas oferecendo uma solu=C3=A7=C3=A3o para sua pend=C3=AAncia, est=
+amos oferecendo uma oportunidade de recome=C3=A7o e estabilidade financeira=
+=2E&nbsp;<br></em></span></p><p style=3D=
+"margin: 0; font-size: 16px; mso-line=
+-height-alt: 21px; letter-spacing: normal;">&nbsp;</p><p style=3D"margin: 0=
+; font-size: 16px; mso-line-height-alt: 24px; letter-spacing: normal;"><spa=
+n style=3D"word-break: break-word; font-size: 16px;">Atenciosamente,</span>=
+</p><p style=3D"margin: 0; font-size: 16px; mso-line-height-alt: 24px; lett=
+er-spacing: normal;"><span style=3D"word-break: break-word; font-size: 16px=
+;"><strong>Departamento de Auditoria Interna | Acerto</strong></span></p></=
+div></div></td></tr></table></td></tr></tbody></table></td></tr></tbody></t=
+able><table class=3D"row row-9" align=3D"center" width=3D"100%" border=3D"0=
+" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"mso-ta=
+ble-lspace: 0pt; mso-table-rspace: 0pt;"><tbody><tr><td><table class=3D"row=
+-content stack" align=3D"center" border=3D"0" cellpadding=3D"0" cellspacing=
+=3D"0" role=3D"presentation" style=3D"mso-table-lspace: 0pt; mso-table-rspa=
+ce: 0pt; background-color: #ffffff; border-radius: 0; color: #000000; width=
+: 600px; margin: 0 auto;" width=3D"600"><tbody><tr><td class=3D"column colu=
+mn-1" width=3D"100%" style=3D"mso-table-lspace: 0pt; mso-table-rspace: 0pt;=
+ font-weight: 400; text-align: left; vertical-align: top;"><table class=3D"=
+image_block block-1 desktop_hide" width=3D"100%" border=3D"0" cellpadding=
+=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"mso-table-lspace: 0=
+pt; mso-table-rspace: 0pt; mso-hide: all; display: none; max-height: 0; ove=
+rflow: hidden;"><tr><td class=3D"pad" style=3D"width:100%;padding-right:0px=
+;padding-left:0px;"><div class=3D"alignment" align=3D"center" style=3D"line=
+-height:10px"><div class=3D"fullWidth" style=3D"max-width: 600px;"><img src=
+=3D"https://acerto.blob.core.windows.net/design/2023/Acerto%20-%20Row%20Rec=
+lame%20Aqui%20Campe%C3%A3o/Acerto_row_reclame_aqui_campeao_mobile.png" styl=
+e=3D"display: block; height: auto; border: 0; width: 100%;" width=3D"600" a=
+lt=3D"" title=3D"" height=3D"auto"></div></div></td></tr></table><table cla=
+ss=3D"image_block block-2 mobile_hide" width=3D"100%" border=3D"0" cellpadd=
+ing=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"mso-table-lspace=
+: 0pt; mso-table-rspace: 0pt;"><tr><td class=3D"pad" style=3D"width:100%;">=
+<div class=3D"alignment" align=3D"center" style=3D"line-height:10px"><div s=
+tyle=3D"max-width: 600px;"><img src=3D"https://acerto.blob.core.windows.net=
+/design/2023/Acerto%20-%20Row%20Reclame%20Aqui%20Campe%C3%A3o/Acerto_row_re=
+clame_aqui_campeao_desktop.png" style=3D"display: block; height: auto; bord=
+er: 0; width: 100%;" width=3D"600" alt=3D"" title=3D"" height=3D"auto"></di=
+v></div></td></tr></table></td></tr></tbody></table></td></tr></tbody></tab=
+le><table class=3D"row row-10" align=3D"center" width=3D"100%" border=3D"0"=
+ cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"mso-tab=
+le-lspace: 0pt; mso-table-rspace: 0pt;"><tbody><tr><td><table class=3D"row-=
+content stack" align=3D"center" border=3D"0" cellpadding=3D"0" cellspacing=
+=3D"0" role=3D"presentation" style=3D"mso-table-lspace: 0pt; mso-table-rspa=
+ce: 0pt; background-color: #ffffff; border-radius: 0; color: #000000; width=
+: 600px; margin: 0 auto;" width=3D"600"><tbody><tr><td class=3D"column colu=
+mn-1" width=3D"100%" style=3D"mso-table-lspace: 0pt; mso-table-rspace: 0pt;=
+ font-weight: 400; text-align: left; padding-bottom: 35px; padding-top: 5px=
+; vertical-align: top;"><table class=3D"heading_block block-1" width=3D"100=
+%" border=3D"0" cellpadding=3D"20" cellspacing=3D"0" role=3D"presentation" =
+style=3D"mso-table-lspace: 0pt; mso-table-rspace: 0pt;"><tr><td class=3D"pa=
+d"><h1 style=3D"margin: 0; color: #000000; direction: ltr; font-family: Mon=
+tserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tah=
+oma, sans-serif; font-size: 15px; font-weight: 700; letter-spacing: normal;=
+ line-height: 120%; text-align: center; margin-top: 0; margin-bottom: 0; ms=
+o-line-height-alt: 18px;"><span class=3D"tinyMce-placeholder" style=3D"word=
+-break: break-word;">Negocia=C3=A7=C3=A3o Segura. O nosso site =C3=A9 100% =
+confi=C3=A1vel.</span></h1></td></tr></table><table class=3D"image_block bl=
+ock-2 mobile_hide" width=3D"100%" border=3D"0" cellpadding=3D"0" cellspacin=
+g=3D"0" role=3D"presentation" style=3D"mso-table-lspace: 0pt; mso-table-rsp=
+ace: 0pt;"><tr><td class=3D"pad" style=3D"width:100%;padding-right:0px;padd=
+ing-left:0px;"><div class=3D"alignment" align=3D"center" style=3D"line-heig=
+ht:10px"><div class=3D"fullWidth" style=3D"max-width: 480px;"><img src=3D"h=
+ttps://acerto.blob.core.windows.net/emails-sistema/Design%20/Selos%20de%20s=
+eguran%C3%A7a%20/selo_desktop.png" style=3D"display: block; height: auto; b=
+order: 0; width: 100%;" width=3D"480" alt=3D"selo verifica=C3=A7=C3=A3o" ti=
+tle=3D"selo verifica=C3=A7=C3=A3o" height=3D"auto"></div></div></td></tr></=
+table><table class=3D"image_block block-3 desktop_hide" width=3D"100%" bord=
+er=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D=
+"mso-table-lspace: 0pt; mso-table-rspace: 0pt; mso-hide: all; display: none=
+; max-height: 0; overflow: hidden;"><tr><td class=3D"pad" style=3D"width:10=
+0%;"><div class=3D"alignment" align=3D"center" style=3D"line-height:10px"><=
+div style=3D"max-width: 450px;"><img src=3D"https://acerto.blob.core.window=
+s.net/emails-sistema/Design%20/Selos%20de%20seguran%C3%A7a%20/selo_mobile.p=
+ng" style=3D"display: block; height: auto; border: 0; width: 100%;" width=
+=3D"450" alt=3D"selo verifica=C3=A7=C3=A3o" title=3D"selo verifica=C3=A7=C3=
+=A3o" height=3D"auto"></div></div></td></tr></table></td></tr></tbody></tab=
+le></td></tr></tbody></table><table class=3D"row row-11" align=3D"center" w=
+idth=3D"100%" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D"pres=
+entation" style=3D"mso-table-lspace: 0pt; mso-table-rspace: 0pt;"><tbody><t=
+r><td><table class=3D"row-content stack" align=3D"center" border=3D"0" cell=
+padding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"mso-table-ls=
+pace: 0pt; mso-table-rspace: 0pt; background-color: #25d366; color: #000000=
+; width: 600px; margin: 0 auto;" width=3D"600"><tbody><tr><td class=3D"colu=
+mn column-1" width=3D"100%" style=3D"mso-table-lspace: 0pt; mso-table-rspac=
+e: 0pt; font-weight: 400; text-align: left; padding-bottom: 5px; padding-to=
+p: 5px; vertical-align: top;"><table class=3D"heading_block block-1" width=
+=3D"100%" border=3D"0" cellpadding=3D"20" cellspacing=3D"0" role=3D"present=
+ation" style=3D"mso-table-lspace: 0pt; mso-table-rspace: 0pt;"><tr><td clas=
+s=3D"pad"><h1 style=3D"margin: 0; color: #ffffff; direction: ltr; font-fami=
+ly: Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sa=
+ns, Tahoma, sans-serif; font-size: 15px; font-weight: 700; letter-spacing: =
+normal; line-height: 120%; text-align: center; margin-top: 0; margin-bottom=
+: 0; mso-line-height-alt: 18px;"><span class=3D"tinyMce-placeholder" style=
+=3D"word-break: break-word; color: #ffffff;">ACERTO. O JEITO CERTO E F=C3=
+=81CIL DE NEGOCIAR SUAS D=C3=8DVIDAS.</span></h1></td></tr></table></td></t=
+r></tbody></table></td></tr></tbody></table><table class=3D"row row-12" ali=
+gn=3D"center" width=3D"100%" border=3D"0" cellpadding=3D"0" cellspacing=3D"=
+0" role=3D"presentation" style=3D"mso-table-lspace: 0pt; mso-table-rspace: =
+0pt;"><tbody><tr><td><table class=3D"row-content stack" align=3D"center" bo=
+rder=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" style=
+=3D"mso-table-lspace: 0pt; mso-table-rspace: 0pt; background-color: #cfd8dc=
+; border-radius: 0; color: #000000; width: 600px; margin: 0 auto;" width=3D=
+"600"><tbody><tr><td class=3D"column column-1" width=3D"100%" style=3D"mso-=
+table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; text-align: lef=
+t; vertical-align: top;"><table class=3D"image_block block-1 desktop_hide" =
+width=3D"100%" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D"pre=
+sentation" style=3D"mso-table-lspace: 0pt; mso-table-rspace: 0pt; mso-hide:=
+ all; display: none; max-height: 0; overflow: hidden;"><tr><td class=3D"pad=
+" style=3D"width:100%;"><div class=3D"alignment" align=3D"center" style=3D"=
+line-height:10px"><div style=3D"max-width: 447px;"><img src=3D"https://acer=
+to.blob.core.windows.net/design/2024/Campanhas/_Materiais/Rodape%20Baseline=
+/menor_mobile_rodape_campanha_baseline.png" style=3D"display: block; height=
+: auto; border: 0; width: 100%;" width=3D"447" alt=3D"" title=3D"" height=
+=3D"auto"></div></div></td></tr></table></td></tr></tbody></table></td></tr=
+></tbody></table><table class=3D"row row-13" align=3D"center" width=3D"100%=
+" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" st=
+yle=3D"mso-table-lspace: 0pt; mso-table-rspace: 0pt;"><tbody><tr><td><table=
+ class=3D"row-content stack" align=3D"center" border=3D"0" cellpadding=3D"0=
+" cellspacing=3D"0" role=3D"presentation" style=3D"mso-table-lspace: 0pt; m=
+so-table-rspace: 0pt; background-color: #cfd8dc; border-radius: 0; color: #=
+000000; width: 600px; margin: 0 auto;" width=3D"600"><tbody><tr><td class=
+=3D"column column-1" width=3D"100%" style=3D"mso-table-lspace: 0pt; mso-tab=
+le-rspace: 0pt; font-weight: 400; text-align: left; vertical-align: top;"><=
+table class=3D"image_block block-1 mobile_hide" width=3D"100%" border=3D"0"=
+ cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"mso-tab=
+le-lspace: 0pt; mso-table-rspace: 0pt;"><tr><td class=3D"pad" style=3D"widt=
+h:100%;"><div class=3D"alignment" align=3D"center" style=3D"line-height:10p=
+x"><div style=3D"max-width: 600px;"><img src=3D"https://acerto.blob.core.wi=
+ndows.net/design/2024/Campanhas/_Materiais/Rodape%20Baseline/menor_Desktop_=
+rodape_campanha_baseline.png" style=3D"display: block; height: auto; border=
+: 0; width: 100%;" width=3D"600" alt=3D"" title=3D"" height=3D"auto"></div>=
+</div></td></tr></table></td></tr></tbody></table></td></tr></tbody></table=
+><table class=3D"row row-14" align=3D"center" width=3D"100%" border=3D"0" c=
+ellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"mso-table=
+-lspace: 0pt; mso-table-rspace: 0pt;"><tbody><tr><td><table class=3D"row-co=
+ntent stack" align=3D"center" border=3D"0" cellpadding=3D"0" cellspacing=3D=
+"0" role=3D"presentation" style=3D"mso-table-lspace: 0pt; mso-table-rspace:=
+ 0pt; background-color: #eceff1; border-radius: 0; color: #000000; width: 6=
+00px; margin: 0 auto;" width=3D"600"><tbody><tr><td class=3D"column column-=
+1" width=3D"33.333333333333336%" style=3D"mso-table-lspace: 0pt; mso-table-=
+rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 5px; paddi=
+ng-top: 5px; vertical-align: top;"><table class=3D"image_block block-1" wid=
+th=3D"100%" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D"presen=
+tation" style=3D"mso-table-lspace: 0pt; mso-table-rspace: 0pt;"><tr><td cla=
+ss=3D"pad" style=3D"padding-left:30px;padding-right:30px;padding-top:20px;w=
+idth:100%;"><div class=3D"alignment" align=3D"center" style=3D"line-height:=
+10px"><div style=3D"max-width: 120px;"><img src=3D"https://acerto.blob.core=
+=2Ewindows.net/emails-sistema/Design%2=
+0/E-mails/Acerto_preto.png" style=3D"di=
+splay: block; height: auto; border: 0; width: 100%;" width=3D"120" alt=3D"n=
+ome da empresa" title=3D"nome da empresa" height=3D"auto"></div></div></td>=
+</tr></table></td><td class=3D"column column-2" width=3D"66.66666666666667%=
+" style=3D"mso-table-lspace: 0pt; mso-table-rspace: 0pt; font-weight: 400; =
+text-align: left; vertical-align: top;"><table class=3D"text_block block-1"=
+ width=3D"100%" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D"pr=
+esentation" style=3D"mso-table-lspace: 0pt; mso-table-rspace: 0pt; word-bre=
+ak: break-word;"><tr><td class=3D"pad" style=3D"padding-bottom:20px;padding=
+-left:30px;padding-right:30px;padding-top:25px;"><div style=3D"font-family:=
+ sans-serif"><div class=3D"" style=3D"font-size: 12px; font-family: Montser=
+rat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma,=
+ sans-serif; mso-line-height-alt: 14.399999999999999px; color: #000000; lin=
+e-height: 1.2;"><p style=3D"margin: 0; font-size: 12px; mso-line-height-alt=
+: 14.399999999999999px;"><strong>Central de Atendimento: </strong>55 (31) 9=
+617-2470<br>(capitais, regi=C3=B5es metropolitanas e demais localidades - W=
+hatsApp)</p></div></div></td></tr></table></td></tr></tbody></table></td></=
+tr></tbody></table><table class=3D"row row-15" align=3D"center" width=3D"10=
+0%" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" =
+style=3D"mso-table-lspace: 0pt; mso-table-rspace: 0pt;"><tbody><tr><td><tab=
+le class=3D"row-content stack" align=3D"center" border=3D"0" cellpadding=3D=
+"0" cellspacing=3D"0" role=3D"presentation" style=3D"mso-table-lspace: 0pt;=
+ mso-table-rspace: 0pt; background-color: #ffffff; border-radius: 0; color:=
+ #000000; width: 600px; margin: 0 auto;" width=3D"600"><tbody><tr><td class=
+=3D"column column-1" width=3D"100%" style=3D"mso-table-lspace: 0pt; mso-tab=
+le-rspace: 0pt; font-weight: 400; text-align: left; padding-bottom: 10px; p=
+adding-top: 10px; vertical-align: top;"><table class=3D"heading_block block=
+-1" width=3D"100%" border=3D"0" cellpadding=3D"10" cellspacing=3D"0" role=
+=3D"presentation" style=3D"mso-table-lspace: 0pt; mso-table-rspace: 0pt;"><=
+tr><td class=3D"pad"><h1 style=3D"margin: 0; color: #000000; direction: ltr=
+; font-family: Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode=
+, Lucida Sans, Tahoma, sans-serif; font-size: 12px; font-weight: 700; lette=
+r-spacing: normal; line-height: 120%; text-align: center; margin-top: 0; ma=
+rgin-bottom: 0; mso-line-height-alt: 14.399999999999999px;"><span class=3D"=
+tinyMce-placeholder" style=3D"word-break: break-word;">Rua Bernardo Mascare=
+nhas, 46 . CEP 30.380-010 (n=C3=A3o h=C3=A1 atendimento presencial)</span><=
+/h1></td></tr></table></td></tr></tbody></table></td></tr></tbody></table><=
+table class=3D"row row-16" align=3D"center" width=3D"100%" border=3D"0" cel=
+lpadding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"mso-table-l=
+space: 0pt; mso-table-rspace: 0pt;"><tbody><tr><td><table class=3D"row-cont=
+ent stack" align=3D"center" border=3D"0" cellpadding=3D"0" cellspacing=3D"0=
+" role=3D"presentation" style=3D"mso-table-lspace: 0pt; mso-table-rspace: 0=
+pt; background-color: #eceff1; border-radius: 0; color: #000000; width: 600=
+px; margin: 0 auto;" width=3D"600"><tbody><tr><td class=3D"column column-1"=
+ width=3D"100%" style=3D"mso-table-lspace: 0pt; mso-table-rspace: 0pt; font=
+-weight: 400; text-align: left; padding-bottom: 5px; padding-top: 5px; vert=
+ical-align: top;"><table class=3D"text_block block-1" width=3D"100%" border=
+=3D"0" cellpadding=3D"0" cellspacing=3D"0" role=3D"presentation" style=3D"m=
+so-table-lspace: 0pt; mso-table-rspace: 0pt; word-break: break-word;"><tr><=
+td class=3D"pad" style=3D"padding-bottom:20px;padding-left:10px;padding-rig=
+ht:10px;padding-top:20px;"><div style=3D"font-family: sans-serif"><div clas=
+s=3D"" style=3D"font-size: 14px; font-family: Montserrat, Trebuchet MS, Luc=
+ida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif; mso-line-=
+height-alt: 16.8px; color: #000000; line-height: 1.2;"><p style=3D"margin: =
+0; font-size: 14px; text-align: center; mso-line-height-alt: 16.8px;"><span=
+ style=3D"word-break: break-word; font-size: 12px;">N=C3=A3o quer mais rece=
+ber e-mails com not=C3=ADcias e oportunidades especiais de negocia=C3=A7=C3=
+=A3o? </span></p><p style=3D"margin: 0; font-size: 14px; text-align: center=
+; mso-line-height-alt: 16.8px;"><a href=3D"https://email.negocia.meuacerto.=
+com.br/c/eJxUkUFvoz4QxT8NvvzVyAzG4IMPSYA2acK_m7bbbC7IYJfQYCCxSSGffhV2L3uZma=
+f3NNLMTxRF2zd2JXmICqE7UZXNSnKXeQSjom2sKO4m80NCKcFIchCU-J9IcTcgmHgu8330eWl1K=
+rRaSY6OXOYS4wCHNBeK-MyVCpiHKeQgFQsFQxWnAaWEBmTJPCBxMA9p5IWUEZzEXrjAsUNwo8q2=
+qMRMq14U6mLbWdHqWX5BNT9a2xnHmzuQOJDYiyhOVVPO_ok5kHQOJLlyIOmNAwkANumjn5mszlY=
+fXTiPioHsyK9QbfWQdVmd3a6tja2Zj5CeO7HYjd0tOK2l9WK6_DZvwccr04evXdL_mJa8nIM4UY=
+8vr94kbbqeOruSzcL_LvT-Cafb7RKL9S0ORgH7n89kcG_4Y51OweT6ZqqeueX7CNG2Oq37zbBZb=
+idPbffBSMskDqv3Z1ZW-vw-1p_5Id8MnYDourl5b0_p6X-dqy45LCGtzHRCtPia79e7wyQeozrc=
+T9PwnansnE0FaWWMKO-sXB-7gNGFH8UozLGayao2beMQXGpR1fdPIqMauZLcxyF1fWS5jJtSlAp=
+Zfo-UffPwF1S2i-YPfxBkQDD856IrB3TVVqwkB_gdAAD__53myQI" target=3D"_blank" sty=
+le=3D"text-decoration: underline; color: #0068A5;" rel=3D"noopener"><span s=
+tyle=3D"word-break: break-word; font-size: 12px;">Clique aqui</span></a></p=
+></div></div></td></tr></table></td></tr></tbody></table></td></tr></tbody>=
+</table></td></tr></tbody></table> <img width=3D"1" height=3D"1" alt=3D"" s=
+rc=3D"https://email.negocia.meuacerto.com.br/o/eJwszc1q6zAQxfGnyWwuMfoYjeXF=
+LHIbF7zpoi8QJpKiGCKp2E6gb19Muz7nz09CaM-6TZE9BClfMuc6RdaDRQWh1U3CPg7OIxEqiGy=
+E0N0gse5RodWDc3BbWvmQkqbIcGedkhdNOohBG6y9Xk1Q2vaOtI1objAz9URIPb4N1uDYnzydra=
+cB1fto_X81HlDVlFuYpSvpKSEtW-tCK911gZLWVfJuaae0UbDwXb5lvc9dnB9rqwdUucj82ANYU=
+41TZKc8aQcbx7FmyQk23i_5WY9_0OXzfDr-SheDyvzT8GIDr7LJFNmYnwAAAP__uDBazA"></bo=
+dy></html>
+
+--------------020103010108020002040708--
