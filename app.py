@@ -23,12 +23,20 @@ PALAVRAS_SUSPEITAS = [
 
 # Extensões de arquivos considerados perigosos
 EXTENSOES_SUSPEITAS = [
-    ".py", ".exe", ".tar", ".js", ".bat", ".sh", ".shell", ".java", ".javac", ".jar"
+    ".py", ".exe", ".tar", ".js", ".bat", ".sh", ".shell", ".java", ".javac", ".jar",
+    ".dll", ".ini", ".zip", ".gz", ".zip", ".rar", ".bot", ".boot", ".c",
+    "ade", "adp", "chm", "cmd", "com", "cpl", "hta", "ins", "isp", "jse", "lib", "lnk",
+    "mde", "msc", "msp", "mst", "pif", "scr", "sct", "shb", "sys",	"vb",
+    "vbe", "vbs", "vxd", "wsc", "wsf", "wsh"
 ]
 
 # Lista de domínios suspeitos (provedores de e-mails pessoais)
 DOMINIOS_SUSPEITOS = [
-    "gmail.com", "hotmail.com", "outlook.com", "yahoo.com", "yahoo.com.br"
+    "gmail.com", "hotmail.com", "outlook.com", "yahoo.com", 
+    "yahoo.com.br", "globo.com", "bol.com.br", "uol.com.br", 
+    "live.com", "outlook.com.br", "ig.com.br", "zoho.com", 
+    "zoho.com.br", "icloud.com", "icloud.com.br", "proton.com", 
+    "protonmail.com", "proton.me", "aol.com.br", "aol.com"
 ]
 
 
