@@ -80,35 +80,74 @@ def verificar_anexos(msg):
     return anexos_suspeitos
 
 
-def verificar_confiabilidade(cabecalho, remetente):
-    """
-    Verifica a confiabilidade do e-mail com base no remetente e nos registros SPF/DKIM.
-    Retorna False e uma lista de motivos se for suspeito.
-    """
-    confiavel = True  # Por padrão, assume que o e-mail é confiável
-    motivos = []
+#verifica a diferença no fuso horario
+from datetime import datetime
+import pytz
+import re
 
-    # Verifica se o remetente usa um provedor suspeito
+# Fuso horário esperado (altere para sua região, se necessário)
+FUSO_ESPERADO = pytz.timezone("America/Sao_Paulo")
+
+def verificar_fuso_horario(data_email):
+    """
+    Verifica se o fuso horário do e-mail está muito diferente do esperado.
+    Retorna True se for suspeito.
+    """
+    try:
+        match = re.search(r"([+-]\d{4})", data_email)  # Captura algo como +0100, -0300, etc.
+        if match:
+            fuso_str = match.group(1)
+            horas_offset = int(fuso_str[:3])  # Extrai horas (ex: -03 de -0300)
+
+            # Fuso horário do e-mail
+            fuso_email = pytz.FixedOffset(horas_offset * 60)
+
+            # Fuso atual do sistema
+            agora = datetime.now(FUSO_ESPERADO)
+            agora_email = agora.astimezone(fuso_email)
+
+            diferenca = abs(agora.utcoffset().total_seconds() - agora_email.utcoffset().total_seconds()) / 3600
+
+            return diferenca > 3  # Se a diferença for maior que 3 horas, marca como suspeito
+    except Exception:
+        pass
+
+    return False
+
+
+def verificar_confiabilidade(cabecalho, remetente, anexos_suspeitos, fuso_horario_suspeito):
+    """
+    Verifica a confiabilidade do e-mail considerando múltiplos critérios e retorna os motivos de bloqueio.
+    """
+    motivos_bloqueio = []
+
+    # Se o remetente for de um provedor suspeito, adiciona motivo
     if verificar_provedor(remetente):
-        motivos.append("Remetente usa provedor de e-mail pessoal (ex: Gmail, Hotmail, Yahoo).")
-        confiavel = False
+        motivos_bloqueio.append("O remetente usa um provedor de e-mail de pessoa física.")
 
-    # Verifica SPF e DKIM
-    if "spf=pass" not in cabecalho.lower() or "dkim=pass" not in cabecalho.lower():
-        motivos.append("Falha na autenticação SPF/DKIM.")
-        confiavel = False
+    # Se houver anexos suspeitos, adiciona motivo
+    if anexos_suspeitos:
+        motivos_bloqueio.append(f"Anexos suspeitos encontrados: {', '.join(anexos_suspeitos)}")
 
-    # Verifica se o e-mail tem marcação de spam nos cabeçalhos
+    # Se o fuso horário for suspeito, adiciona motivo
+    if fuso_horario_suspeito:
+        motivos_bloqueio.append("O fuso horário do e-mail difere do fuso horário esperado.")
+
+    # Se SPF ou DKIM falharem, adiciona motivo
+    if "spf=fail" in cabecalho.lower() or "dkim=fail" in cabecalho.lower():
+        motivos_bloqueio.append("Falha na verificação SPF ou DKIM.")
+
+    # Se o cabeçalho indicar spam, adiciona motivo
     if "x-spam-flag: yes" in cabecalho.lower():
-        motivos.append("Marcado como SPAM no cabeçalho do e-mail.")
-        confiavel = False
+        motivos_bloqueio.append("O e-mail foi marcado como SPAM pelo servidor.")
 
-    return confiavel, motivos  # Retorna confiabilidade e os motivos
+    # Se houver qualquer motivo de bloqueio, o e-mail NÃO é confiável
+    confiavel = len(motivos_bloqueio) == 0
 
+    return confiavel, motivos_bloqueio
 
 
 def analisar_cabecalho(email_bytes):
-    """Analisa o cabeçalho do e-mail e retorna informações detalhadas."""
     msg = BytesParser(policy=policy.default).parsebytes(email_bytes)
 
     remetente = msg["From"] or "Desconhecido"
@@ -118,13 +157,16 @@ def analisar_cabecalho(email_bytes):
 
     cabecalho_completo = str(msg)
 
-    confiavel, motivos = verificar_confiabilidade(cabecalho_completo, remetente)
+    # Definição correta das variáveis antes do uso
     anexos_suspeitos = verificar_anexos(msg)
+    fuso_suspeito = verificar_fuso_horario(data)
+    provedor_suspeito = verificar_provedor(remetente)
 
-    # Se houver anexos suspeitos, adicionamos os nomes dos arquivos à lista de motivos
-    if anexos_suspeitos:
-        motivos.append(f"Contém anexos suspeitos: {', '.join(anexos_suspeitos)}")
-        confiavel = False  # Se houver anexos suspeitos, o e-mail não pode ser confiável
+    # Agora chamamos a função corretamente
+    confiavel, motivos = verificar_confiabilidade(
+        cabecalho_completo, remetente, anexos_suspeitos, fuso_suspeito
+    )
+
 
     return {
         "remetente": remetente,
@@ -132,8 +174,12 @@ def analisar_cabecalho(email_bytes):
         "assunto": assunto,
         "data": data,
         "confiavel": confiavel,
-        "motivos": motivos if motivos else ["Nenhuma ameaça detectada."]
+        "provedor_suspeito": provedor_suspeito,
+        "anexos_suspeitos": anexos_suspeitos,
+        "fuso_suspeito": fuso_suspeito,
+        "motivos": motivos  # Agora o frontend pode exibir os motivos
     }
+
 
 
 
