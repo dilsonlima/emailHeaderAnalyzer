@@ -1,2 +1,2 @@
 # emailHeaderAnalyzer
-Verifica o cabeçalho do email e retorna de o email é confiável ou nao
+Verifica o cabeçalho do email e retorna se o email é confiável:  sim ou nao, e uma breve explicação sobre.
