@@ -5,6 +5,10 @@ from email import policy
 from email.parser import BytesParser
 import os
 import re
+from datetime import datetime
+import pytz
+import dkim
+import spf
 
 app = Flask(__name__, template_folder="templates")
 CORS(app)
@@ -27,7 +31,7 @@ EXTENSOES_SUSPEITAS = [
     ".py", ".exe", ".tar", ".js", ".bat", ".sh", ".shell", ".java", ".javac", ".jar",
     ".dll", ".ini", ".zip", ".gz", ".zip", ".rar", ".bot", ".boot", ".c",
     "ade", "adp", "chm", "cmd", "com", "cpl", "hta", "ins", "isp", "jse", "lib", "lnk",
-    "mde", "msc", "msp", "mst", "pif", "scr", "sct", "shb", "sys",	"vb",
+    "mde", "msc", "msp", "mst", "pif", "scr", "sct", "shb", "sys", "vb",
     "vbe", "vbs", "vxd", "wsc", "wsf", "wsh"
 ]
 
@@ -40,7 +44,6 @@ DOMINIOS_SUSPEITOS = [
     "protonmail.com", "proton.me", "aol.com.br", "aol.com"
 ]
 
-
 def extrair_email(remetente):
     """Extrai apenas o e-mail do remetente, ignorando o nome."""
     match = re.search(r'<(.+?)>', remetente)
@@ -48,6 +51,15 @@ def extrair_email(remetente):
         return match.group(1)  # Retorna o e-mail dentro de <>
     return remetente  # Se não houver <>, retorna o próprio remetente
 
+def extrair_emails_cabecalho(cabecalho):
+    """Extrai emails relevantes do cabeçalho."""
+    return_path = re.search(r"Return-Path: <(.+?)>", cabecalho, re.IGNORECASE)
+    remetente_smtp = re.search(r"smtp\.mailfrom=(.+)", cabecalho, re.IGNORECASE)
+
+    return {
+        "return_path": return_path.group(1) if return_path else None,
+        "remetente_smtp": remetente_smtp.group(1) if remetente_smtp else None,
+    }
 
 def verificar_provedor(remetente):
     """Verifica se o remetente usa um provedor de pessoa física."""
@@ -56,6 +68,17 @@ def verificar_provedor(remetente):
     
     return dominio in DOMINIOS_SUSPEITOS
 
+def verificar_autenticacao(cabecalho):
+    """Verifica SPF, DKIM e DMARC."""
+    spf_resultado = re.search(r"spf=(pass|fail|softfail|neutral|none|temperror|permerror)", cabecalho, re.IGNORECASE)
+    dkim_resultado = re.search(r"dkim=(pass|fail|neutral|none|temperror|permerror)", cabecalho, re.IGNORECASE)
+    dmarc_resultado = re.search(r"dmarc=(pass|fail|neutral|none|temperror|permerror)", cabecalho, re.IGNORECASE)
+
+    return {
+        "spf": spf_resultado.group(1) if spf_resultado else None,
+        "dkim": dkim_resultado.group(1) if dkim_resultado else None,
+        "dmarc": dmarc_resultado.group(1) if dmarc_resultado else None,
+    }
 
 def verificar_anexos(msg):
     """Verifica se há anexos suspeitos no e-mail."""
@@ -78,15 +101,6 @@ def verificar_anexos(msg):
                     anexos_suspeitos.append(f"Arquivo perigoso: {filename} (extensão proibida)")
 
     return anexos_suspeitos
-
-
-#verifica a diferença no fuso horario
-from datetime import datetime
-import pytz
-import re
-
-# Fuso horário esperado (altere para sua região, se necessário)
-FUSO_ESPERADO = pytz.timezone("America/Sao_Paulo")
 
 def verificar_fuso_horario(data_email):
     """
@@ -113,7 +127,6 @@ def verificar_fuso_horario(data_email):
         pass
 
     return False
-
 
 def verificar_confiabilidade(cabecalho, remetente, anexos_suspeitos, fuso_horario_suspeito):
     """
@@ -146,9 +159,12 @@ def verificar_confiabilidade(cabecalho, remetente, anexos_suspeitos, fuso_horari
 
     return confiavel, motivos_bloqueio
 
-
 def analisar_cabecalho(email_bytes):
     msg = BytesParser(policy=policy.default).parsebytes(email_bytes)
+    cabecalho_completo = str(msg)
+
+    emails = extrair_emails_cabecalho(cabecalho_completo)
+    autenticacao = verificar_autenticacao(cabecalho_completo)
 
     remetente = msg["From"] or "Desconhecido"
     destinatario = msg["To"] or "Desconhecido"
@@ -156,6 +172,20 @@ def analisar_cabecalho(email_bytes):
     data = msg["Date"] or "Data não encontrada"
 
     cabecalho_completo = str(msg)
+
+    # Extrair o domínio do remetente
+    email_limpo = extrair_email(remetente)
+    dominio = email_limpo.split("@")[-1] if "@" in email_limpo else ""
+
+    # Consultar WHOIS do domínio
+    whois_info = consultar_whois(dominio)
+
+    # Extrair o IP do cabeçalho (exemplo simplificado)
+    ip_match = re.search(r"Received: from (.+?) \(", cabecalho_completo)
+    ip = ip_match.group(1) if ip_match else ""
+
+    # Geolocalizar o IP
+    geo_info = geolocalizar_ip(ip)
 
     # Definição correta das variáveis antes do uso
     anexos_suspeitos = verificar_anexos(msg)
@@ -167,7 +197,6 @@ def analisar_cabecalho(email_bytes):
         cabecalho_completo, remetente, anexos_suspeitos, fuso_suspeito
     )
 
-
     return {
         "remetente": remetente,
         "destinatario": destinatario,
@@ -177,16 +206,51 @@ def analisar_cabecalho(email_bytes):
         "provedor_suspeito": provedor_suspeito,
         "anexos_suspeitos": anexos_suspeitos,
         "fuso_suspeito": fuso_suspeito,
-        "motivos": motivos  # Agora o frontend pode exibir os motivos
+        "motivos": motivos,
+        "emails": emails,
+        "autenticacao": autenticacao, 
+        "whois_info": whois_info,
+        "geo_info": geo_info,
     }
 
+#função whois
+import whois
 
+def consultar_whois(dominio):
+    try:
+        w = whois.whois(dominio)
+        return {
+            "nome": w.name,
+            "email": w.email,
+            "telefone": w.phone,
+            "data_registro": w.creation_date,
+            "data_expiracao": w.expiration_date,
+            "status": w.status,
+        }
+    except Exception as e:
+        return {"erro": str(e)}
+    
+    #funcao ipinfo.io
+import requests
+
+def geolocalizar_ip(ip):
+    try:
+        response = requests.get(f"https://ipinfo.io/{ip}/json")
+        data = response.json()
+        return {
+            "ip": data.get("ip"),
+            "cidade": data.get("city"),
+            "regiao": data.get("region"),
+            "pais": data.get("country"),
+            "provedor": data.get("org"),
+        }
+    except Exception as e:
+        return {"erro": str(e)}
 
 
 @app.route("/")
 def home():
     return render_template("index.html")
-
 
 @app.route("/upload", methods=["POST"])
 def upload_file():
@@ -207,8 +271,6 @@ def upload_file():
         resultado = analisar_cabecalho(email_bytes)
 
         return jsonify(resultado)  # Retornando corretamente o JSON
-
-
 
 if __name__ == "__main__":
     app.run(debug=True, port=5002)

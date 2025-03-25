@@ -33,6 +33,15 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             border-radius: 10px;
         }
+        .loading-spinner {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 1000;
+        }
+        
     </style>
 </head>
 <body>
@@ -56,6 +65,25 @@
                     <p><strong>Assunto:</strong> <span id="assunto"></span></p>
                     <p><strong>Data:</strong> <span id="data"></span></p>
                     <p><strong>E-mail Confiável:</strong> <span id="confiabilidade"></span></p>
+
+                    <div class="card mt-3">
+                        <div class="card-body">
+                            <h5 class="card-title">Informações de Autenticação</h5>
+                            <p><strong>SPF:</strong> <span id="spfResultado"></span></p>
+                            <p><strong>DKIM:</strong> <span id="dkimResultado"></span></p>
+                            <p><strong>DMARC:</strong> <span id="dmarcResultado"></span></p>
+                        </div>
+                    </div>
+
+                    <div class="card mt-3">
+                        <div class="card-body">
+                            <h5 class="card-title">Emails Extraídos</h5>
+                            <p><strong>Return-Path:</strong> <span id="returnPath"></span></p>
+                            <p><strong>Remetente SMTP:</strong> <span id="remetenteSmtp"></span></p>
+                        </div>
+                    </div>
+
+
                     <div class="card mt-3">
                         <div class="card-body">
                             <h5 class="card-title">Motivos do Bloqueio</h5>
@@ -67,8 +95,39 @@
 
                 </div>
             </div>
+
+            <div class="card mt-3">
+                <div class="card-body">
+                    <h5 class="card-title">Informações WHOIS</h5>
+                    <p><strong>Nome:</strong> <span id="whoisNome"></span></p>
+                    <p><strong>E-mail:</strong> <span id="whoisEmail"></span></p>
+                    <p><strong>Telefone:</strong> <span id="whoisTelefone"></span></p>
+                    <p><strong>Data de Registro:</strong> <span id="whoisDataRegistro"></span></p>
+                    <p><strong>Status:</strong> <span id="whoisStatus"></span></p>
+                </div>
+            </div>
+            
+            <div class="card mt-3">
+                <div class="card-body">
+                    <h5 class="card-title">Geolocalização do IP</h5>
+                    <p><strong>IP:</strong> <span id="geoIp"></span></p>
+                    <p><strong>Cidade:</strong> <span id="geoCidade"></span></p>
+                    <p><strong>Região:</strong> <span id="geoRegiao"></span></p>
+                    <p><strong>País:</strong> <span id="geoPais"></span></p>
+                    <p><strong>Provedor:</strong> <span id="geoProvedor"></span></p>
+                </div>
+            </div>
+
         </div>
     </div>
+
+    <div class="loading-spinner" id="loadingSpinner" style="display: none;">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Carregando...</span>
+        </div>
+        <p class="mt-2">Processando as informações...</p>
+    </div>
+
 
     <footer class="text-center mt-5 p-3 bg-light small">
         <p>
@@ -84,49 +143,83 @@
     
 
     <script>
-        document.getElementById('fileInput').addEventListener('change', function(event) {
+       document.getElementById('fileInput').addEventListener('change', function(event) {
     let file = event.target.files[0];
 
     if (file) {
         let formData = new FormData();
         formData.append("file", file);
 
+    // Mostra o indicador de carregamento
+       document.getElementById("loadingSpinner").style.display = "block";
+
         fetch('/upload', { 
-    method: 'POST', 
-    body: formData 
-})
-.then(response => response.json())
-.then(data => {
-    document.getElementById("remetente").textContent = data.remetente;
-    document.getElementById("destinatario").textContent = data.destinatario;
-    document.getElementById("assunto").textContent = data.assunto;
-    document.getElementById("data").textContent = data.data;
-    document.getElementById("confiabilidade").textContent = data.confiavel ? "Sim ✅" : "Não ❌";
+            method: 'POST', 
+            body: formData 
+        })
+        .then(response => response.json())
+        .then(data => {
 
-    let motivosBloqueio = document.getElementById("motivosBloqueio");
-    motivosBloqueio.innerHTML = ""; // Limpa antes de adicionar
+    // Oculta o indicador de carregamento
+       document.getElementById("loadingSpinner").style.display = "none";
 
-    if (data.motivos.length > 0) {
-        data.motivos.forEach(motivo => {
-            let listItem = document.createElement("li");
-            listItem.className = "list-group-item list-group-item-danger";
-            listItem.textContent = motivo;
-            motivosBloqueio.appendChild(listItem);
+// Atualiza a interface com os resultados
+
+            document.getElementById("remetente").textContent = data.remetente;
+            document.getElementById("destinatario").textContent = data.destinatario;
+            document.getElementById("assunto").textContent = data.assunto;
+            document.getElementById("data").textContent = data.data;
+            document.getElementById("confiabilidade").textContent = data.confiavel ? "Sim ✅" : "Não ❌";
+
+            let motivosBloqueio = document.getElementById("motivosBloqueio");
+            motivosBloqueio.innerHTML = ""; // Limpa antes de adicionar
+
+            if (data.motivos.length > 0) {
+                data.motivos.forEach(motivo => {
+                    let listItem = document.createElement("li");
+                    listItem.className = "list-group-item list-group-item-danger";
+                    listItem.textContent = motivo;
+                    motivosBloqueio.appendChild(listItem);
+                });
+            } else {
+                let listItem = document.createElement("li");
+                listItem.className = "list-group-item list-group-item-success";
+                listItem.textContent = "Nenhuma ameaça detectada.";
+                motivosBloqueio.appendChild(listItem);
+            }
+
+            // Adicionar informações de autenticação
+                document.getElementById("spfResultado").textContent = data.autenticacao.spf || "N/A";
+                document.getElementById("dkimResultado").textContent = data.autenticacao.dkim || "N/A";
+                document.getElementById("dmarcResultado").textContent = data.autenticacao.dmarc || "N/A";
+
+                // Adicionar emails extraídos
+                document.getElementById("returnPath").textContent = data.emails.return_path || "N/A";
+                document.getElementById("remetenteSmtp").textContent = data.emails.remetente_smtp || "N/A";
+
+            // Exibir informações WHOIS
+            document.getElementById("whoisNome").textContent = data.whois_info.nome || "N/A";
+            document.getElementById("whoisEmail").textContent = data.whois_info.email || "N/A";
+            document.getElementById("whoisTelefone").textContent = data.whois_info.telefone || "N/A";
+            document.getElementById("whoisDataRegistro").textContent = data.whois_info.data_registro || "N/A";
+            document.getElementById("whoisStatus").textContent = data.whois_info.status || "N/A";
+
+            // Exibir informações de geolocalização
+            document.getElementById("geoIp").textContent = data.geo_info.ip || "N/A";
+            document.getElementById("geoCidade").textContent = data.geo_info.cidade || "N/A";
+            document.getElementById("geoRegiao").textContent = data.geo_info.regiao || "N/A";
+            document.getElementById("geoPais").textContent = data.geo_info.pais || "N/A";
+            document.getElementById("geoProvedor").textContent = data.geo_info.provedor || "N/A";
+
+            document.getElementById("resultArea").style.display = "block";
+        })
+        .catch(error => {
+            // Oculta o indicador de carregamento em caso de erro
+            document.getElementById("loadingSpinner").style.display = "none";
+            console.error("Erro ao processar o arquivo:", error);
         });
-    } else {
-        let listItem = document.createElement("li");
-        listItem.className = "list-group-item list-group-item-success";
-        listItem.textContent = "Nenhuma ameaça detectada.";
-        motivosBloqueio.appendChild(listItem);
-    }
-
-    document.getElementById("resultArea").style.display = "block";
-})
-.catch(error => console.error("Erro ao processar o arquivo:", error));
-
     }
 });
-
     </script>
 
 </body>
