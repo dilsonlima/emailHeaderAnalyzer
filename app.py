@@ -51,14 +51,25 @@ def extrair_email(remetente):
         return match.group(1)  # Retorna o e-mail dentro de <>
     return remetente  # Se não houver <>, retorna o próprio remetente
 
+import re
+
 def extrair_emails_cabecalho(cabecalho):
-    """Extrai emails relevantes do cabeçalho."""
-    return_path = re.search(r"Return-Path: <(.+?)>", cabecalho, re.IGNORECASE)
-    remetente_smtp = re.search(r"smtp\.mailfrom=(.+)", cabecalho, re.IGNORECASE)
+    """Extrai emails relevantes do cabeçalho, removendo prefixos e informações adicionais."""
+    return_path_match = re.search(r"Return-Path: <(.+?)>", cabecalho, re.IGNORECASE)
+    remetente_smtp_match = re.search(r"smtp\.mailfrom=(.+)", cabecalho, re.IGNORECASE)
+
+    return_path = return_path_match.group(1) if return_path_match else None
+    remetente_smtp = remetente_smtp_match.group(1) if remetente_smtp_match else None
+
+    # Remover prefixo "prvs=" e informações adicionais
+    if return_path and "prvs=" in return_path:
+        return_path = return_path.split("=")[-1]
+    if remetente_smtp:
+        remetente_smtp = remetente_smtp.split(';')[0].strip('"')  # Extrair apenas o email
 
     return {
-        "return_path": return_path.group(1) if return_path else None,
-        "remetente_smtp": remetente_smtp.group(1) if remetente_smtp else None,
+        "return_path": return_path,
+        "remetente_smtp": remetente_smtp,
     }
 
 def verificar_provedor(remetente):
@@ -154,6 +165,15 @@ def verificar_confiabilidade(cabecalho, remetente, anexos_suspeitos, fuso_horari
     if "x-spam-flag: yes" in cabecalho.lower():
         motivos_bloqueio.append("O e-mail foi marcado como SPAM pelo servidor.")
 
+    # Se o return path for diferente do from adiciona motivo
+    emails_header = extrair_emails_cabecalho(cabecalho)
+    if emails_header["return_path"] and extrair_email(remetente) != emails_header["return_path"]:
+        motivos_bloqueio.append("O 'Return-Path' difere do 'From'.")
+
+    # Se o remetente smtp for diferente do from adiciona motivo
+    if emails_header["remetente_smtp"] and extrair_email(remetente) != emails_header["remetente_smtp"]:
+        motivos_bloqueio.append("O 'smtp.mailfrom' difere do 'From'.")
+
     # Se houver qualquer motivo de bloqueio, o e-mail NÃO é confiável
     confiavel = len(motivos_bloqueio) == 0
 
@@ -166,6 +186,19 @@ def analisar_cabecalho(email_bytes):
     emails = extrair_emails_cabecalho(cabecalho_completo)
     autenticacao = verificar_autenticacao(cabecalho_completo)
 
+     # Priorizar Return-Path e smtp.mailfrom para WHOIS e geolocalização
+    dominio_geolocalizacao = None
+    if emails["return_path"]:
+        dominio_geolocalizacao = emails["return_path"].split("@")[-1]
+    elif emails["remetente_smtp"]:
+        dominio_geolocalizacao = emails["remetente_smtp"].split("@")[-1]
+    else:
+        # Se nenhum dos dois estiver disponível, usar o domínio do From (com cautela)
+        remetente = msg["From"] or "Desconhecido"
+        email_limpo = extrair_email(remetente)
+        dominio_geolocalizacao = email_limpo.split("@")[-1] if "@" in email_limpo else None
+
+
     remetente = msg["From"] or "Desconhecido"
     destinatario = msg["To"] or "Desconhecido"
     assunto = msg["Subject"] or "Sem assunto"
@@ -177,15 +210,30 @@ def analisar_cabecalho(email_bytes):
     email_limpo = extrair_email(remetente)
     dominio = email_limpo.split("@")[-1] if "@" in email_limpo else ""
 
+     # Priorizar Return-Path e smtp.mailfrom para WHOIS
+    dominio_whois = None
+    if emails["return_path"]:
+        dominio_whois = emails["return_path"].split("@")[-1]
+    elif emails["remetente_smtp"]:
+        dominio_whois = emails["remetente_smtp"].split("@")[-1]
+    else:
+        # Se nenhum dos dois estiver disponível, usar o domínio do From (com cautela)
+        remetente = msg["From"] or "Desconhecido"
+        email_limpo = extrair_email(remetente)
+        dominio_whois = email_limpo.split("@")[-1] if "@" in email_limpo else None
+
+     # Consultar WHOIS do domínio prioritário
+    whois_info = consultar_whois(dominio_geolocalizacao) if dominio_geolocalizacao else {"erro": "Domínio não encontrado"}
+
     # Consultar WHOIS do domínio
-    whois_info = consultar_whois(dominio)
+   # whois_info = consultar_whois(dominio)
 
-    # Extrair o IP do cabeçalho (exemplo simplificado)
-    ip_match = re.search(r"Received: from (.+?) \(", cabecalho_completo)
-    ip = ip_match.group(1) if ip_match else ""
+  # Extrair o IP do cabeçalho (exemplo simplificado)
+    ip_match = re.search(r"Received: from .+? \(.*?\[(.+?)\]", cabecalho_completo)
+    ip = ip_match.group(1) if ip_match else None
 
-    # Geolocalizar o IP
-    geo_info = geolocalizar_ip(ip)
+     # Geolocalizar o IP
+    geo_info = geolocalizar_ip(ip) if ip else {"erro": "IP não encontrado"}
 
     # Definição correta das variáveis antes do uso
     anexos_suspeitos = verificar_anexos(msg)
@@ -194,14 +242,14 @@ def analisar_cabecalho(email_bytes):
 
     # Agora chamamos a função corretamente
     confiavel, motivos = verificar_confiabilidade(
-        cabecalho_completo, remetente, anexos_suspeitos, fuso_suspeito
+        cabecalho_completo, msg["From"], verificar_anexos(msg), verificar_fuso_horario(msg["Date"])
     )
 
     return {
-        "remetente": remetente,
-        "destinatario": destinatario,
-        "assunto": assunto,
-        "data": data,
+        "remetente": msg["From"] or "Desconhecido",
+        "destinatario": msg["To"] or "Desconhecido",
+        "assunto": msg["Subject"] or "Sem assunto",
+        "data": msg["Date"] or "Data não encontrada",
         "confiavel": confiavel,
         "provedor_suspeito": provedor_suspeito,
         "anexos_suspeitos": anexos_suspeitos,
@@ -252,6 +300,9 @@ def geolocalizar_ip(ip):
 def home():
     return render_template("index.html")
 
+import os
+import shutil  # Importe o módulo shutil para remover diretórios
+
 @app.route("/upload", methods=["POST"])
 def upload_file():
     if "file" not in request.files:
@@ -265,12 +316,41 @@ def upload_file():
         file_path = os.path.join(app.config["UPLOAD_FOLDER"], file.filename)
         file.save(file_path)
 
-        with open(file_path, "rb") as f:
-            email_bytes = f.read()
+        try:
+            with open(file_path, "rb") as f:
+                email_bytes = f.read()
 
-        resultado = analisar_cabecalho(email_bytes)
+            resultado = analisar_cabecalho(email_bytes)
 
-        return jsonify(resultado)  # Retornando corretamente o JSON
+            # Excluir o arquivo após a análise
+            os.remove(file_path)
+            print(f"Arquivo {file.filename} excluído com sucesso.")
+
+            return jsonify(resultado)
+
+        except Exception as e:
+            print(f"Erro ao processar ou excluir o arquivo {file.filename}: {e}")
+            return jsonify({"error": "Erro ao processar o arquivo"}), 500
+
+        finally:
+            # Remover o arquivo mesmo em caso de erro
+            if os.path.exists(file_path):
+                try:
+                    os.remove(file_path)
+                    print(f"Arquivo {file.filename} excluído (finally).")
+                except Exception as e:
+                    print(f"Erro ao excluir o arquivo (finally): {e}")
+    
+
+     # Excluir o arquivo após a análise
+        try:
+            os.remove(file_path)
+            print(f"Arquivo {file.filename} excluído com sucesso.")
+        except Exception as e:
+            print(f"Erro ao excluir o arquivo {file.filename}: {e}")
+
+        return jsonify(resultado)
+
 
 if __name__ == "__main__":
     app.run(debug=True, port=5002)
